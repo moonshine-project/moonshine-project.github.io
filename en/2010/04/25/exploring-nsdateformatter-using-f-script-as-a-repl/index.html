@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="App" ng-controller="MainController">
+  <head>
+    <link href='http://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Exploring NSDateFormatter using F-Script as a REPL</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">        
+    <meta name="description" content="Moonshine Project official website
+">
+    <link rel="canonical" 
+          href="http://moonshine-project.com//en/2010/04/25/exploring-nsdateformatter-using-f-script-as-a-repl/">
+    <link rel="shortcut icon" href="/assets/images/favicon.png">
+    
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="/bower_components/foundation/css/normalize.css">
+    <link rel="stylesheet" href="/bower_components/angular-material/angular-material.css">
+    <link rel="stylesheet" href="/bower_components/angular-material/themes/deep-purple-theme.css">
+    <link rel="stylesheet" type="text/css" href="/assets/css/main.css">
+
+    <!-- Modernizr js -->
+    <script async src="/bower_components/modernizr/modernizr.js"></script>
+
+    <!-- IE Fixes -->
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->        
+  </head>
+  <body layout="horizontal" md-theme="deep-purple">
+    <md-sidenav layout="vertical" component-id="left" class="md-sidenav-left md-whiteframe-z2" id="footered-sidenav" is-locked-open="$media('md')">
+      <md-toolbar class="md-medium-tall" id="footered-sidenav-toolbar"></md-toolbar>
+      <md-content layout="vertical" class="footered-sidenav-content">
+        
+
+  
+    <a class="sidenav-item" href="http://moonshine-project.com//en/archive/">blog archive</a>
+  
+
+  
+
+  
+    <a class="sidenav-item" href="http://moonshine-project.com//en/workstyle/"></a>
+  
+
+
+        <div flex></div>
+        <footer>
+          <h2>Follow me</h2>
+
+
+<h3>@akiraak</h3>
+  <ul class="social-media">
+    
+    <li>
+        <a title="akiraak on Github" 
+           href="https://github.com/akiraak" 
+           class="fi-social-github"><span class="fontawesome-text">Github</span></a>
+    </li>
+     
+    
+    <li>
+        <a title="akira.kozakai on Facebook" 
+           href="https://facebook.com/akira.kozakai" 
+           class="fi-social-facebook"><span class="fontawesome-text">Facebook</span></a>
+    </li>
+    
+    
+    <li>
+        <a title="akiraak on Twitter" 
+           href="https://twitter.com/akiraak" 
+           class="fi-social-twitter"><span class="fontawesome-text">Twitter</span></a>
+    </li>
+    
+    
+    
+</ul>
+
+<h3>@ento</h3>
+  <ul class="social-media">
+    
+    <li>
+        <a title="ento on Github" 
+           href="https://github.com/ento" 
+           class="fi-social-github"><span class="fontawesome-text">Github</span></a>
+    </li>
+     
+    
+    <li>
+        <a title="entotto on Facebook" 
+           href="https://facebook.com/entotto" 
+           class="fi-social-facebook"><span class="fontawesome-text">Facebook</span></a>
+    </li>
+    
+    
+    <li>
+        <a title="ento on Twitter" 
+           href="https://twitter.com/ento" 
+           class="fi-social-twitter"><span class="fontawesome-text">Twitter</span></a>
+    </li>
+    
+    
+    <li>
+        <a title="+MaricaOdagaki on Google Plus" 
+           href="https://plus.google.com/+MaricaOdagaki" 
+           class="fi-social-google-plus"><span class="fontawesome-text">Google</span></a>
+    </li>
+    
+    
+    <li>
+        <a title="maricaodagaki on LinkedIn" 
+           href="https://linkedin.com/in/maricaodagaki" 
+           class="fi-social-linkedin"><span class="fontawesome-text">LinkedIn</span></a>
+    </li>
+    
+</ul>
+
+  
+
+          <p class="attribution"><a href="https://github.com/moonshine-project/moonshine-project.github.io#Colophon">Colophon</a></p>
+
+        </footer>
+      </md-content>
+    </md-sidenav>
+    <div layout="vertical" layout-fill role="main">
+      <md-toolbar class="md-medium-tall">
+        <header>
+          <div class="md-toolbar-tools content-container">
+            <button class="menu-icon" hide-md aria-label="Open Menu" ng-click="openMenu()">
+              <span class="fi-list"></span>
+            </button>
+            <h1><a href="/">Moonshine Project</a></h1>
+            <h2></h2>
+            <span flex></span>
+            
+
+          </div>
+        </header>
+      </md-toolbar>
+      <md-content ng-view scroll-y flex>
+        <div class="content-container">
+          <div class="page-content">
+  <div class="post">
+    <h1>Exploring NSDateFormatter using F-Script as a REPL</h1>
+    <div class="post-meta">25 Apr 2010 / ento /
+      <span class="label secondary radius">dev</span>
+    </div>
+    <hr/>
+    <div class="post-content">
+      <p>(here be preface)</p>
+
+<p>Let&#39;s start by instantiating a formatter and a date.</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">&gt; fmt := NSDateFormatter new.
+
+&gt; fmt
+&lt;NSDateFormatter: 0x2004cec80&gt;
+
+&gt; now := NSDate date.
+
+&gt; now
+2010-04-25 18:03:26 +0900
+</code></pre></div>
+<p>Note that assignment is :=, not =, and no angled brackets around method calls. Also, a sentence ends in a period, not a semicolon.</p>
+
+<p>OK, what does the virgin formatter output when we feed it a date?</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">&gt; fmt stringFromDate:now
+&#39;&#39;
+</code></pre></div>
+<p>Hmm, after consulting the Xcode Developer Documentation, it seems that we need to set a format string to get a non-empty result. There are also shortcut methods provided to easily set the formats for the date part and the time part.</p>
+
+<p>The argument to these methods is a constant, which we have easy access to in F-Script.</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">&gt; NSDateFormatterNoStyle
+0
+
+&gt; fmt setDateStyle:NSDateFormatterMediumStyle
+
+&gt; fmt dateFormat
+&#39;MMM d, yyyy&#39;
+
+&gt; fmt stringFromDate:now
+&#39;Apr 25, 2010&#39;
+</code></pre></div>
+<p>There, the date. Let&#39;s try setting the time part format.</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">&gt; fmt setTimeStyle:NSDateFormatterMediumStyle
+
+&gt; fmt dateFormat
+&#39;MMM d, yyyy h:mm:ss a&#39;
+
+&gt; fmt stringFromDate:now
+&#39;Apr 25, 2010 6:03:26 PM&#39;
+</code></pre></div>
+<p>With #setDateFormat:, we have more control over the formatting. You can even include arbitrary string. (Which I found out after reading the <a href="http://unicode.org/reports/tr35/tr35-4.html#Date_Format_Patterns">date format patterns specification</a> adopted by NSDateFormatter.)</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">&gt; fmt setDateFormat:&#39;&#39;&#39;Year&#39;&#39;YYYY&#39;
+
+&gt; fmt dateFormat
+&#39;&#39;Year&#39;YYYY&#39;
+
+&gt; fmt stringFromDate:now
+&#39;Year2010&#39;
+</code></pre></div>
+    </div>
+  </div>
+
+  
+  <div class="related">
+    <h4>Related Posts</h2>
+    <ul class="posts">
+        
+        <li>
+        <span>28 Jun 2013 &raquo;</span>
+        <a href="http://moonshine-project.com//ja/2013/06/28/titanium-iphone-android-crossplatform-gotchas/">iPhone向けに作られたTitaniumアプリのAndroid対応で気をつけること</a>
+        </li>
+        
+        <li>
+        <span>18 Apr 2013 &raquo;</span>
+        <a href="http://moonshine-project.com//ja/2013/04/18/mynovel-on-github/">小説を２倍に拡大表示してくれる「吾輩の小説」のコードを公開</a>
+        </li>
+        
+        <li>
+        <span>02 Jul 2010 &raquo;</span>
+        <a href="http://moonshine-project.com//ja/2010/07/02/iphone-pixel-processing-optimization-with-neon/">iPhoneでのピクセル処理をNEON(ベクタ演算)を使って4倍高速化する</a>
+        </li>
+        
+    </ul>
+  </div>
+  
+
+  <div class="post-footer" layout="horizontal">
+    <div flex="33" class="post-footer-prev">
+      
+        <a href="http://moonshine-project.com//ja/2010/03/15/mynovel-walkthrough/"><< Older</a>
+      
+    </div>
+    <div flex="33" class="post-footer-home"><a href="http://moonshine-project.com// ">Home</a></div>
+    <div flex="33" class="post-footer-next">
+      
+        <a href="http://moonshine-project.com//ja/2010/05/25/best-way-to-cut-books-for-scanning/">Newer >></a>
+      
+    </div>
+  </div>
+</div>
+ 
+
+        </div>
+      </md-content>
+    </div>
+    <script src="/bower_components/angular/angular.js"></script>
+    <script src="/bower_components/angular-aria/angular-aria.js"></script>
+    <script src="/bower_components/angular-animate/angular-animate.js"></script>
+    <script src="/bower_components/hammerjs/hammer.js"></script>
+    <script src="/bower_components/angular-material/angular-material.js"></script>
+    <script src="/assets/js/main.js"></script>
+    
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-536501-6']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+
+  </body>        
+</html>

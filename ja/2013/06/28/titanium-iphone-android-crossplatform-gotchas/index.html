@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="ja" ng-app="App" ng-controller="MainController">
+  <head>
+    <link href='http://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>iPhone向けに作られたTitaniumアプリのAndroid対応で気をつけること</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">        
+    <meta name="description" content="Moonshine Project official website
+">
+    <link rel="canonical" 
+          href="http://moonshine-project.com//ja/2013/06/28/titanium-iphone-android-crossplatform-gotchas/">
+    <link rel="shortcut icon" href="/assets/images/favicon.png">
+    
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="/bower_components/foundation/css/normalize.css">
+    <link rel="stylesheet" href="/bower_components/angular-material/angular-material.css">
+    <link rel="stylesheet" href="/bower_components/angular-material/themes/deep-purple-theme.css">
+    <link rel="stylesheet" type="text/css" href="/assets/css/main.css">
+
+    <!-- Modernizr js -->
+    <script async src="/bower_components/modernizr/modernizr.js"></script>
+
+    <!-- IE Fixes -->
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->        
+  </head>
+  <body layout="horizontal" md-theme="deep-purple">
+    <md-sidenav layout="vertical" component-id="left" class="md-sidenav-left md-whiteframe-z2" id="footered-sidenav" is-locked-open="$media('md')">
+      <md-toolbar class="md-medium-tall" id="footered-sidenav-toolbar"></md-toolbar>
+      <md-content layout="vertical" class="footered-sidenav-content">
+        
+
+  
+    <a class="sidenav-item" href="http://moonshine-project.com//ja/archive/">ブログアーカイブ</a>
+  
+
+  
+    <a class="sidenav-item" href="http://moonshine-project.com//ja/projects/">プロジェクト</a>
+  
+
+  
+    <a class="sidenav-item" href="http://moonshine-project.com//ja/workstyle/">ワークスタイル</a>
+  
+
+
+        <div flex></div>
+        <footer>
+          <h2>Follow me</h2>
+
+
+<h3>@akiraak</h3>
+  <ul class="social-media">
+    
+    <li>
+        <a title="akiraak on Github" 
+           href="https://github.com/akiraak" 
+           class="fi-social-github"><span class="fontawesome-text">Github</span></a>
+    </li>
+     
+    
+    <li>
+        <a title="akira.kozakai on Facebook" 
+           href="https://facebook.com/akira.kozakai" 
+           class="fi-social-facebook"><span class="fontawesome-text">Facebook</span></a>
+    </li>
+    
+    
+    <li>
+        <a title="akiraak on Twitter" 
+           href="https://twitter.com/akiraak" 
+           class="fi-social-twitter"><span class="fontawesome-text">Twitter</span></a>
+    </li>
+    
+    
+    
+</ul>
+
+<h3>@ento</h3>
+  <ul class="social-media">
+    
+    <li>
+        <a title="ento on Github" 
+           href="https://github.com/ento" 
+           class="fi-social-github"><span class="fontawesome-text">Github</span></a>
+    </li>
+     
+    
+    <li>
+        <a title="entotto on Facebook" 
+           href="https://facebook.com/entotto" 
+           class="fi-social-facebook"><span class="fontawesome-text">Facebook</span></a>
+    </li>
+    
+    
+    <li>
+        <a title="ento on Twitter" 
+           href="https://twitter.com/ento" 
+           class="fi-social-twitter"><span class="fontawesome-text">Twitter</span></a>
+    </li>
+    
+    
+    <li>
+        <a title="+MaricaOdagaki on Google Plus" 
+           href="https://plus.google.com/+MaricaOdagaki" 
+           class="fi-social-google-plus"><span class="fontawesome-text">Google</span></a>
+    </li>
+    
+    
+    <li>
+        <a title="maricaodagaki on LinkedIn" 
+           href="https://linkedin.com/in/maricaodagaki" 
+           class="fi-social-linkedin"><span class="fontawesome-text">LinkedIn</span></a>
+    </li>
+    
+</ul>
+
+  
+
+          <p class="attribution"><a href="https://github.com/moonshine-project/moonshine-project.github.io#Colophon">Colophon</a></p>
+
+        </footer>
+      </md-content>
+    </md-sidenav>
+    <div layout="vertical" layout-fill role="main">
+      <md-toolbar class="md-medium-tall">
+        <header>
+          <div class="md-toolbar-tools content-container">
+            <button class="menu-icon" hide-md aria-label="Open Menu" ng-click="openMenu()">
+              <span class="fi-list"></span>
+            </button>
+            <h1><a href="/">Moonshine Project</a></h1>
+            <h2></h2>
+            <span flex></span>
+            
+
+          </div>
+        </header>
+      </md-toolbar>
+      <md-content ng-view scroll-y flex>
+        <div class="content-container">
+          <div class="page-content">
+  <div class="post">
+    <h1>iPhone向けに作られたTitaniumアプリのAndroid対応で気をつけること</h1>
+    <div class="post-meta">28 Jun 2013 / akira /
+      <span class="label secondary radius">開発</span>
+    </div>
+    <hr/>
+    <div class="post-content">
+      <p>Titanium 3.1.0 で作られた iPhone アプリを Android で動くようにしてみたところ、いくつかの問題がでてきましたので対処方法などまとめておきます。</p>
+
+<h4>Android の判定</h4>
+
+<p>なにはともあれ、まずは実行している端末が Android かを判定する情報を保持します。alloy.js の初めの方で定義しておけばよいでしょう。</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">Alloy</span><span class="p">.</span><span class="nx">Globals</span><span class="p">.</span><span class="nx">isAndroid</span> <span class="o">=</span> <span class="sr">/android/i</span><span class="p">.</span><span class="nx">test</span><span class="p">(</span><span class="nx">Ti</span><span class="p">.</span><span class="nx">Platform</span><span class="p">.</span><span class="nx">osname</span><span class="p">);</span>
+</code></pre></div>
+<p>OS_IOS での判定もありますが、こちらバグがあるようです。</p>
+
+<h2>iPhone と Android でデザインが大きく違うところ</h2>
+
+<h4>Android にはナビゲーションバーがない</h4>
+
+<p>Android には iPhone で言うところのナビゲーションバーがありませんので、iPhone 側でナビゲーションバーを使用するなら Android 側ではその機能に変わるものを実装する必要があります。いくつか方法があると思いますが、１つは iPhone のナビゲーションバーを模したものを再実装する方法。Android にはメニューキーやバックキーを使用する文化があるので、あえて iPhone を模すことはユーザーを混乱させるだけなのでお勧めはしません。しかし、仕様が統一できるので開発側にすると楽だと思います。もう１つは、Android の機能である ActionBar（Android 3.0以降） もしくはメニューキー・バックキーを使用する方法です。ActionBarやメニュー画面の設計が必要になるのでコストはかかりますが、Android ユーザには見慣れたものになるので使いやすくなると思います。</p>
+
+<h4>Android ではタブバーが上にくる</h4>
+
+<p>Android のタブバーは iPhone とは逆で画面の上に配置されます。Titanium2 までは下に配置する方法がありましたが、今のところ Titanium3 ではできないようです。また、最近のアプリではタブバーを使用しないものが多くなってきているように感じますので、Titanium で iPhone, Android 両対応のアプリを作るさいは、タブバーを使用しないデザインにした方がよいかもしれません。</p>
+
+<h2>iPhone と Android で別の API を利用しなければいけないケース</h2>
+
+<h4>ナビゲーションバー関連のメソッドを呼ぶと落ちる</h4>
+
+<p>Android にはナビバーが無いので、関連するメソッドを呼ぶと落ちます。判定を入れましょう。</p>
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">Alloy</span><span class="p">.</span><span class="nx">Globals</span><span class="p">.</span><span class="nx">isAndroid</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">$</span><span class="p">.</span><span class="nb">window</span><span class="p">.</span><span class="nx">hideNavBar</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre></div>
+<h4>カスタム URL scheme で起動した場合の URL を取得する</h4>
+
+<p>iPhone は Ti.App.getArguments().url で取得できますが、Android の場合は intent から取得します。</p>
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="kd">var</span> <span class="nx">url</span><span class="p">;</span>
+<span class="k">if</span> <span class="p">(</span><span class="nx">Alloy</span><span class="p">.</span><span class="nx">Globals</span><span class="p">.</span><span class="nx">isAndroid</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">activity</span> <span class="o">=</span> <span class="nx">Ti</span><span class="p">.</span><span class="nx">Android</span><span class="p">.</span><span class="nx">currentActivity</span><span class="p">;</span>
+    <span class="kd">var</span> <span class="nx">args</span> <span class="o">=</span> <span class="nx">activity</span><span class="p">.</span><span class="nx">getIntent</span><span class="p">().</span><span class="nx">getData</span><span class="p">();</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">args</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">url</span> <span class="o">=</span> <span class="nx">args</span><span class="p">.</span><span class="nx">toString</span><span class="p">();</span>
+    <span class="p">}</span>
+<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">args</span> <span class="o">=</span> <span class="nx">Ti</span><span class="p">.</span><span class="nx">App</span><span class="p">.</span><span class="nx">getArguments</span><span class="p">();</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">args</span><span class="p">.</span><span class="nx">url</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">url</span> <span class="o">=</span> <span class="nx">args</span><span class="p">.</span><span class="nx">url</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<h4>画像を端末に保存する</h4>
+
+<p>アプリ内の画像を端末に保存する方法が iPhone と Android で違います。ImageView に設定した画像を保存するときは以下のようにします。</p>
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="kd">function</span> <span class="nx">saveToPhotoGallery</span> <span class="p">(</span><span class="nx">imageView</span><span class="p">,</span> <span class="nx">fileName</span><span class="p">){</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">Alloy</span><span class="p">.</span><span class="nx">Globals</span><span class="p">.</span><span class="nx">isAndroid</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">dir</span> <span class="o">=</span> <span class="nx">Ti</span><span class="p">.</span><span class="nx">Filesystem</span><span class="p">.</span><span class="nx">getFile</span><span class="p">(</span><span class="nx">Ti</span><span class="p">.</span><span class="nx">Filesystem</span><span class="p">.</span><span class="nx">externalStorageDirectory</span><span class="p">,</span> <span class="s1">&#39;appname&#39;</span><span class="p">);</span>
+        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">dir</span><span class="p">.</span><span class="nx">exists</span><span class="p">())</span> <span class="p">{</span>
+            <span class="nx">dir</span><span class="p">.</span><span class="nx">createDirectory</span><span class="p">();</span>
+        <span class="p">}</span>
+        <span class="kd">var</span> <span class="nx">f</span> <span class="o">=</span> <span class="nx">Ti</span><span class="p">.</span><span class="nx">Filesystem</span><span class="p">.</span><span class="nx">getFile</span><span class="p">(</span><span class="nx">dir</span><span class="p">.</span><span class="nx">resolve</span><span class="p">(),</span> <span class="nx">fileName</span> <span class="o">+</span> <span class="s1">&#39;.jpg&#39;</span><span class="p">);</span>
+        <span class="nx">f</span><span class="p">.</span><span class="nx">write</span><span class="p">(</span><span class="nx">imageView</span><span class="p">.</span><span class="nx">toImage</span><span class="p">().</span><span class="nx">media</span><span class="p">);</span>
+        <span class="nx">Ti</span><span class="p">.</span><span class="nx">Media</span><span class="p">.</span><span class="nx">Android</span><span class="p">.</span><span class="nx">scanMediaFiles</span><span class="p">([</span><span class="nx">f</span><span class="p">.</span><span class="nx">nativePath</span><span class="p">],</span> <span class="kc">null</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">){});</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="nx">Ti</span><span class="p">.</span><span class="nx">Media</span><span class="p">.</span><span class="nx">saveToPhotoGallery</span><span class="p">(</span> <span class="nx">imageView</span><span class="p">.</span><span class="nx">image</span> <span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<h4>Titanium.UI.iPhone 関連の使用</h4>
+
+<p>iPhone でしか使用できない Titanium.UI.iPhone 以下の定数やメソッドがありますが、こちらを使用する場合は Android かどうかの判定を入れないとアプリが落ちます。</p>
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="kd">var</span> <span class="nx">template</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="nx">properties</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">height</span><span class="o">:</span> <span class="s1">&#39;100dp&#39;</span><span class="p">,</span>
+    <span class="p">},</span>
+<span class="p">};</span>
+<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">Alloy</span><span class="p">.</span><span class="nx">Globals</span><span class="p">.</span><span class="nx">isAndroid</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">template</span><span class="p">[</span><span class="s1">&#39;properties&#39;</span><span class="p">][</span><span class="s1">&#39;selectionStyle&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nx">Titanium</span><span class="p">.</span><span class="nx">UI</span><span class="p">.</span><span class="nx">iPhone</span><span class="p">.</span><span class="nx">ListViewCellSelectionStyle</span><span class="p">.</span><span class="nx">NONE</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+<h4>iPhone と Android で違うビューのマークアップを使う</h4>
+
+<p><a href="http://docs.appcelerator.com/titanium/latest/#!/guide/Alloy_XML_Markup-section-35621528_AlloyXMLMarkup-ConditionalCode">Alloy XML Markup</a> ガイドにあるように、 platform 属性によってビューを出し分けることができます。また、 formFactor 属性でデバイスの形状によって出し分けることもできます (指定できる値は tablet か handheld)。</p>
+
+<script async src="http://gist-it.appspot.com/github/moonshine-project/gist/blob/master/blog/cross-platform-titanium/conditional_alloy_xml.xml"></script>
+
+<p><a href="http://docs.appcelerator.com/titanium/latest/#!/guide/Supporting_Multiple_Platforms_in_a_Single_Codebase-section-29004890_SupportingMultiplePlatformsinaSingleCodebase-Platform-specificstyling">Supporting Multiple Platforms in a Single Codebase</a> も参考になるので一読しておくと吉です。</p>
+
+<h4>ディスプレイの大きさを dip 単位で取得する</h4>
+
+<p>iPhone では Ti.Platform.displayCaps.platformHeight などをそのまま使用できますが、Android の場合はその値に Ti.Platform.displayCaps.logicalDensityFactor を掛ける事で同じように使用することができます。</p>
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="kd">var</span> <span class="nx">displayHeight</span> <span class="o">=</span> <span class="nx">Ti</span><span class="p">.</span><span class="nx">Platform</span><span class="p">.</span><span class="nx">displayCaps</span><span class="p">.</span><span class="nx">platformHeight</span><span class="p">;</span>
+<span class="k">if</span><span class="p">(</span> <span class="nx">Alloy</span><span class="p">.</span><span class="nx">Globals</span><span class="p">.</span><span class="nx">isAndroid</span> <span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// convert to dips</span>
+    <span class="nx">displayHeight</span> <span class="o">=</span> <span class="nx">displayHeight</span> <span class="o">/</span> <span class="nx">Ti</span><span class="p">.</span><span class="nx">Platform</span><span class="p">.</span><span class="nx">displayCaps</span><span class="p">.</span><span class="nx">logicalDensityFactor</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+<h2>iPhone と Android で Titanium の内部実装が違う</h2>
+
+<h4>タブバーの項目が消せない</h4>
+
+<p>タブバーを作るときは、TabGroup に Tab を追加しますが iPhone では Tab を remove する事もできます。しかし、Android ではできません。Tab の内容を変更したい場合は TabGroup の作りなおしが必要になります。</p>
+
+<h4>ビューを複数重ねて上のビューを非表示にしても下のビューがタップできない。もしくは非表示でもタップできてしまう。</h4>
+
+<p>ビューを重ねて配置し、上のビューを消して下のビューを操作させたい場合があります。iPhone は opacity = 0 で表示を消すと下のビューの操作も可能ですが、Android の場合は touchEnabled = false も設定する必要があります。</p>
+<div class="highlight"><pre><code class="language-xml" data-lang="xml"><span class="nt">&lt;View</span> <span class="na">id=</span><span class="s">&quot;view1&quot;</span> <span class="na">left=</span><span class="s">&quot;0&quot;</span> <span class="na">top=</span><span class="s">&quot;0&quot;</span> <span class="na">width=</span><span class="s">&quot;100dp&quot;</span> <span class="na">height=</span><span class="s">&quot;100dp&quot;</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;View</span> <span class="na">id=</span><span class="s">&quot;view2&quot;</span> <span class="na">left=</span><span class="s">&quot;0&quot;</span> <span class="na">top=</span><span class="s">&quot;0&quot;</span> <span class="na">width=</span><span class="s">&quot;100dp&quot;</span> <span class="na">height=</span><span class="s">&quot;100dp&quot;</span> <span class="nt">/&gt;</span>
+</code></pre></div><div class="highlight"><pre><code class="language-js" data-lang="js"><span class="nx">$</span><span class="p">.</span><span class="nx">view1</span><span class="p">.</span><span class="nx">opacity</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="nx">$</span><span class="p">.</span><span class="nx">view1</span><span class="p">.</span><span class="nx">touchEnabled</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+</code></pre></div>
+<p>また touchEnabled = false にしないと上のビューがタップできてしまいます。</p>
+
+<h4>表示が崩れる</h4>
+
+<p>iPhone では綺麗に表示されていたものが Android だと違う見た目になってしまうという問題が起きます。その場合は xml に設定忘れの値が無いかなど確認します。以下の例では label1 label2 は横に並べて配置したいのですが、親のビューに width=&quot;Ti.UI.SIZE&quot; を設定していなかったために、Android では label2 で改行されて label1 の下に表示されてしまいました。</p>
+<div class="highlight"><pre><code class="language-xml" data-lang="xml"><span class="c">&lt;!-- &lt;View layout=&quot;vertical&quot; left=&quot;10dp&quot; height=&quot;Ti.UI.SIZE&quot; &gt; --&gt;</span>
+<span class="nt">&lt;View</span> <span class="na">layout=</span><span class="s">&quot;vertical&quot;</span> <span class="na">left=</span><span class="s">&quot;10dp&quot;</span> <span class="na">width=</span><span class="s">&quot;Ti.UI.SIZE&quot;</span> <span class="na">height=</span><span class="s">&quot;Ti.UI.SIZE&quot;</span> <span class="nt">&gt;</span>
+    <span class="nt">&lt;Label</span> <span class="na">id=</span><span class="s">&quot;label1&quot;</span> <span class="na">left=</span><span class="s">&quot;0&quot;</span> <span class="na">color=</span><span class="s">&quot;#000&quot;</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;Label</span> <span class="na">id=</span><span class="s">&quot;label2&quot;</span> <span class="na">left=</span><span class="s">&quot;0&quot;</span> <span class="na">color=</span><span class="s">&quot;#999&quot;</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;/View&gt;</span>
+</code></pre></div>
+<h4>ボタンの中身が表示されない（コンテナになれないビューたち）</h4>
+
+<p>ビューにビューを追加して、階層構造で画面を構築していきますが、親ビューになれないものも存在します。たとえば Button は親ビューになれないため、Label や ImageView などを子として配置しても表示されません。しかし、iPhone はその仕様を無視して表示ができてしまうのです。Android でも正しく表示させるには、以下の例であれば Label を使わずにテキストを Button タグで囲う必要があります。</p>
+<div class="highlight"><pre><code class="language-xml" data-lang="xml"><span class="c">&lt;!--</span>
+<span class="c">&lt;Button id=&quot;button&quot;&gt;</span>
+<span class="c">    &lt;Label&gt;OK&lt;/Label&gt;</span>
+<span class="c">&lt;/Button&gt;</span>
+<span class="c">--&gt;</span>
+<span class="nt">&lt;Button</span> <span class="na">id=</span><span class="s">&quot;button&quot;</span><span class="nt">&gt;</span>OK<span class="nt">&lt;/Button&gt;</span>
+</code></pre></div>
+<p>背景画像を使いたいのであれば Button の backgroundImage に設定することで表示できます。また複数の画像やテキストなどを配置したいのであれば、Button の使用をやめて View で配置し、onClink を設定すればタップも取れます。</p>
+
+<p>どのビューが親になれないかの情報は View.add メソッドの説明に書いてあります。
+<a href="http://docs.appcelerator.com/titanium/latest/#!/api/Titanium.UI.View-method-add">Titanium.UI.View-method-add</a></p>
+
+<h4>creation-only なプロパティに注意</h4>
+
+<p>Titanium でビューを作るには、XML に記述する方法と、コントローラ内で JavaScript の API を呼び出す方法があります。この時、JavaScript の API 経由でしか設定できないプロパティがあるので注意しましょう。こうしたプロパティは、リファレンスに &quot;CO&quot; または &quot;CREATION-ONLY&quot; というラベルが付いています。</p>
+
+<h4>テーブルビューをタップしたときに行のデータが取得できない</h4>
+
+<p>テーブルビューをタップしたときに iPhone では e.rowData にもその行のデータが入ってきますが、Android ではこの値は空になるので e.row を使うようにします。</p>
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="kd">function</span> <span class="nx">onTableViewRowTap</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">cid</span> <span class="o">=</span> <span class="nx">e</span><span class="p">.</span><span class="nx">row</span><span class="p">.</span><span class="nx">cid</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+<h4>テーブルビューの表示更新が動かない</h4>
+
+<p>リファレンスにも書かれていますが、<a href="https://jira.appcelerator.org/browse/TIMOB-12625">updateSection() の引数の順序が違っているというバグ</a>があります。Android の場合と iPhone の場合で引数の順序を変えましょう。</p>
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="k">if</span> <span class="p">(</span><span class="nx">Alloy</span><span class="p">.</span><span class="nx">Globals</span><span class="p">.</span><span class="nx">isAndroid</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">table</span><span class="p">.</span><span class="nx">updateSection</span><span class="p">(</span><span class="nx">index</span><span class="p">,</span> <span class="nx">section</span><span class="p">,</span> <span class="nx">animation</span><span class="p">);</span>
+<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+  <span class="nx">table</span><span class="p">.</span><span class="nx">updateSection</span><span class="p">(</span><span class="nx">section</span><span class="p">,</span> <span class="nx">index</span><span class="p">,</span> <span class="nx">animation</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+<h4>TableView の filterAttribute 用のプロパティを TableViewRow に後から設定できない</h4>
+
+<p><a href="http://developer.appcelerator.com/question/131215/">オフィシャル Q&amp;A</a> に投稿があるように、Android 版の不具合のためカスタムの filterAttribute を使う場合は createTableViewRow で指定する必要があります。</p>
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="c1">// works</span>
+<span class="kd">var</span> <span class="nx">tableViewRow</span> <span class="o">=</span> <span class="nx">Ti</span><span class="p">.</span><span class="nx">UI</span><span class="p">.</span><span class="nx">createTableViewRow</span><span class="p">({</span><span class="nx">filter</span><span class="o">:</span><span class="s1">&#39;stuff&#39;</span><span class="p">,...});</span>
+<span class="c1">// doesn&#39;t work</span>
+<span class="nx">tableViewRow</span><span class="p">.</span><span class="nx">filter</span> <span class="o">=</span> <span class="s1">&#39;stuff&#39;</span><span class="p">;</span>
+</code></pre></div>
+<p>デフォルトの filterAttribute、title を使う場合は後から設定できます。ただし、TableViewRow 内でラベルなどを使っている場合は注意が必要です: iPhone では TableViewRow に設定した title とラベルのタイトルの両方が表示されてしまうので、iPhone ではカスタムの filterAttribute を使うなどの対策が必要になります。</p>
+
+<h4>検索欄のキャンセルが効かない</h4>
+
+<p><a href="https://jira.appcelerator.org/browse/TIMOB-7748">SearchBar のキャンセルボタンが動作しない不具合</a>があるので、自前で実装する必要があります。</p>
+<div class="highlight"><pre><code class="language-xml" data-lang="xml"><span class="nt">&lt;SearchBar</span> <span class="na">id=</span><span class="s">&quot;search&quot;</span> <span class="na">height=</span><span class="s">&quot;44dp&quot;</span> <span class="na">hintText=</span><span class="s">&quot;検索&quot;</span> <span class="nt">/&gt;</span>
+</code></pre></div><div class="highlight"><pre><code class="language-js" data-lang="js"><span class="nx">$</span><span class="p">.</span><span class="nx">search</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;cancel&#39;</span><span class="p">,</span> <span class="nx">onSearchCancel</span><span class="p">);</span>
+
+<span class="kd">function</span> <span class="nx">onSearchCancel</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">$</span><span class="p">.</span><span class="nx">search</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">;</span>
+  <span class="nx">$</span><span class="p">.</span><span class="nx">search</span><span class="p">.</span><span class="nx">blur</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre></div>
+<h4>exports問題</h4>
+
+<p><a href="http://docs.appcelerator.com/titanium/latest/#!/guide/CommonJS_Modules_in_Titanium">Titanium では CommonJS にのっとって JavaScript を書く</a>、ということになっています。Titanium における CommonJS の実装では、NodeJS にならって以下のようにモジュールの API を定義することができます。</p>
+
+<script async src="http://gist-it.appspot.com/github/moonshine-project/gist/blob/master/blog/cross-platform-titanium/module_export.js"></script>
+
+<p>ここで、 2 番目の例のようにモジュールを require() した時に返るオブジェクトそのものを書き換えたい時に、 module.exports ではなく exports 変数に代入してしまうと NG です。 require() を実行すると実際には以下のような疑似コードが走ります。</p>
+
+<script async src="http://gist-it.appspot.com/github/moonshine-project/gist/blob/master/blog/cross-platform-titanium/module_export_behind_the_scene.js"></script>
+
+<p>exports 変数を書き換えても、最終的に返す値、 module.exports オブジェクトは変わりません。ところが! iPhone 版 Titanium では exports 変数そのものを書き換えることで require() の返り値も変わってしまうのです。このような exports 変数の使い方は <a href="http://docs.appcelerator.com/titanium/latest/#!/guide/CommonJS_Modules_in_Titanium-section-29004791_CommonJSModulesinTitanium-AntipatternsandUnsupportedBehavior">Titanium のドキュメントでも推奨されてません。</a></p>
+
+<h4>アニメーションでViewの表示がおかしくなる</h4>
+
+<p>View の位置やサイズを変更するときにアニメーションを使って素敵な演出が可能ですが、Android の場合は問題がおきます。まずアニメーション速度がとても遅くなります。iPhone だとスッと動くところが、Android ではカクッカクッカクッカクッとなります。そして、ビー内部に配置した子ビューの座標がずれました。こちらは情報が見当たらなかったので手元で起きた現象を説明します。まず画面の下半分にビュー（view1とする）を配置し、その中にいくつかボタンを配置しました。そして、view1をフルスクリーンになるようにアニメーションしたところ、まずボタン類がview1のアニメーションに一歩遅れる感じでついてきます。たとえば、ボタンを top=&quot;10dp&quot; で配置しても、アニメーション中は 10dp だったり 20dp だったりして見えます。そして最終的にアニメーションが終わっても top=&quot;10dp&quot; とは違う場所に表示されます。こちらは解決方法が見つからなかったため、Android ではアニメーションをしないようにしました。</p>
+
+<h2>おわりに</h2>
+
+<p>Titanium は iPhone では動くのに Android では動かない事がよくあります。それは、そもそも Titanium が iPhone アプリ開発用に作られた経緯もあり、iPhone での実装の記事が多くあるからかもしれません。リファレンスに禁止事項が書かれていますが、記事にはその通り書かれていないものもあります。そして、それでも iPhone では動く事があります。また、Android での実装が後手にまわっているようなので機能が無いものもあります。iPhone, Android 両対応アプリを作るさいにこの記事が目に止まり、問題が回避できれば幸いです。</p>
+
+    </div>
+  </div>
+
+  
+  <div class="related">
+    <h4>Related Posts</h2>
+    <ul class="posts">
+        
+        <li>
+        <span>18 Apr 2013 &raquo;</span>
+        <a href="http://moonshine-project.com//ja/2013/04/18/mynovel-on-github/">小説を２倍に拡大表示してくれる「吾輩の小説」のコードを公開</a>
+        </li>
+        
+        <li>
+        <span>02 Jul 2010 &raquo;</span>
+        <a href="http://moonshine-project.com//ja/2010/07/02/iphone-pixel-processing-optimization-with-neon/">iPhoneでのピクセル処理をNEON(ベクタ演算)を使って4倍高速化する</a>
+        </li>
+        
+        <li>
+        <span>25 May 2010 &raquo;</span>
+        <a href="http://moonshine-project.com//ja/2010/05/25/best-way-to-cut-books-for-scanning/">分厚いハードカバーの本をカッターで綺麗に裁断する方法</a>
+        </li>
+        
+    </ul>
+  </div>
+  
+
+  <div class="post-footer" layout="horizontal">
+    <div flex="33" class="post-footer-prev">
+      
+        <a href="http://moonshine-project.com//ja/2013/04/18/mynovel-on-github/"><< Older</a>
+      
+    </div>
+    <div flex="33" class="post-footer-home"><a href="http://moonshine-project.com// ">Home</a></div>
+    <div flex="33" class="post-footer-next">
+      
+        <span>Newer >></span>
+      
+    </div>
+  </div>
+</div>
+ 
+
+        </div>
+      </md-content>
+    </div>
+    <script src="/bower_components/angular/angular.js"></script>
+    <script src="/bower_components/angular-aria/angular-aria.js"></script>
+    <script src="/bower_components/angular-animate/angular-animate.js"></script>
+    <script src="/bower_components/hammerjs/hammer.js"></script>
+    <script src="/bower_components/angular-material/angular-material.js"></script>
+    <script src="/assets/js/main.js"></script>
+    
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-536501-6']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+
+  </body>        
+</html>

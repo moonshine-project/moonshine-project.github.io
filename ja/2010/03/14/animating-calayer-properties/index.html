@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="ja" ng-app="App" ng-controller="MainController">
+  <head>
+    <link href='http://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>CALayerの好きなプロパティをアニメーションさせる</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">        
+    <meta name="description" content="Moonshine Project official website
+">
+    <link rel="canonical" 
+          href="http://moonshine-project.com//ja/2010/03/14/animating-calayer-properties/">
+    <link rel="shortcut icon" href="/assets/images/favicon.png">
+    
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="/bower_components/foundation/css/normalize.css">
+    <link rel="stylesheet" href="/bower_components/angular-material/angular-material.css">
+    <link rel="stylesheet" href="/bower_components/angular-material/themes/deep-purple-theme.css">
+    <link rel="stylesheet" type="text/css" href="/assets/css/main.css">
+
+    <!-- Modernizr js -->
+    <script async src="/bower_components/modernizr/modernizr.js"></script>
+
+    <!-- IE Fixes -->
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->        
+  </head>
+  <body layout="horizontal" md-theme="deep-purple">
+    <md-sidenav layout="vertical" component-id="left" class="md-sidenav-left md-whiteframe-z2" id="footered-sidenav" is-locked-open="$media('md')">
+      <md-toolbar class="md-medium-tall" id="footered-sidenav-toolbar"></md-toolbar>
+      <md-content layout="vertical" class="footered-sidenav-content">
+        
+
+  
+    <a class="sidenav-item" href="http://moonshine-project.com//ja/archive/">ブログアーカイブ</a>
+  
+
+  
+    <a class="sidenav-item" href="http://moonshine-project.com//ja/projects/">プロジェクト</a>
+  
+
+  
+    <a class="sidenav-item" href="http://moonshine-project.com//ja/workstyle/">ワークスタイル</a>
+  
+
+
+        <div flex></div>
+        <footer>
+          <h2>Follow me</h2>
+
+
+<h3>@akiraak</h3>
+  <ul class="social-media">
+    
+    <li>
+        <a title="akiraak on Github" 
+           href="https://github.com/akiraak" 
+           class="fi-social-github"><span class="fontawesome-text">Github</span></a>
+    </li>
+     
+    
+    <li>
+        <a title="akira.kozakai on Facebook" 
+           href="https://facebook.com/akira.kozakai" 
+           class="fi-social-facebook"><span class="fontawesome-text">Facebook</span></a>
+    </li>
+    
+    
+    <li>
+        <a title="akiraak on Twitter" 
+           href="https://twitter.com/akiraak" 
+           class="fi-social-twitter"><span class="fontawesome-text">Twitter</span></a>
+    </li>
+    
+    
+    
+</ul>
+
+<h3>@ento</h3>
+  <ul class="social-media">
+    
+    <li>
+        <a title="ento on Github" 
+           href="https://github.com/ento" 
+           class="fi-social-github"><span class="fontawesome-text">Github</span></a>
+    </li>
+     
+    
+    <li>
+        <a title="entotto on Facebook" 
+           href="https://facebook.com/entotto" 
+           class="fi-social-facebook"><span class="fontawesome-text">Facebook</span></a>
+    </li>
+    
+    
+    <li>
+        <a title="ento on Twitter" 
+           href="https://twitter.com/ento" 
+           class="fi-social-twitter"><span class="fontawesome-text">Twitter</span></a>
+    </li>
+    
+    
+    <li>
+        <a title="+MaricaOdagaki on Google Plus" 
+           href="https://plus.google.com/+MaricaOdagaki" 
+           class="fi-social-google-plus"><span class="fontawesome-text">Google</span></a>
+    </li>
+    
+    
+    <li>
+        <a title="maricaodagaki on LinkedIn" 
+           href="https://linkedin.com/in/maricaodagaki" 
+           class="fi-social-linkedin"><span class="fontawesome-text">LinkedIn</span></a>
+    </li>
+    
+</ul>
+
+  
+
+          <p class="attribution"><a href="https://github.com/moonshine-project/moonshine-project.github.io#Colophon">Colophon</a></p>
+
+        </footer>
+      </md-content>
+    </md-sidenav>
+    <div layout="vertical" layout-fill role="main">
+      <md-toolbar class="md-medium-tall">
+        <header>
+          <div class="md-toolbar-tools content-container">
+            <button class="menu-icon" hide-md aria-label="Open Menu" ng-click="openMenu()">
+              <span class="fi-list"></span>
+            </button>
+            <h1><a href="/">Moonshine Project</a></h1>
+            <h2></h2>
+            <span flex></span>
+              
+  
+    <a href="/ja/2010/03/14/animating-calayer-properties/" class="ja">ja</a>
+  
+    <a href="/en/2010/03/14/implicit-animation-of-custom-calayer-properties/" class="en">en</a>
+  
+
+
+          </div>
+        </header>
+      </md-toolbar>
+      <md-content ng-view scroll-y flex>
+        <div class="content-container">
+          <div class="page-content">
+  <div class="post">
+    <h1>CALayerの好きなプロパティをアニメーションさせる</h1>
+    <div class="post-meta">14 Mar 2010 / ento /
+      <span class="label secondary radius">開発</span>
+    </div>
+    <hr/>
+    <div class="post-content">
+      <p>iPhone 上の描画システムとして、弊社ではこれまで UIKit、OpenGL を使ってきました。 UIKit を使ったのは最初のアプリだけで、パフォーマンス上の理由からそれ以降のアプリはすべて OpenGL で描画しています。</p>
+
+<p>しかし先週から開始した次のアプリの開発では、Quartz と Core Animation を使ってみています。簡単な時計アプリになる予定で、これらのフレームワークでどこまでできるかの試作段階といったところです。その中で 1 つ、詰まった点があったので紹介します。</p>
+
+<p>それはというと、時計の針を描画するところまではよかったのですが、その角度を変えながらアニメーションさせるところで行き詰まったのです。CALayer の「アニメーション可能なプロパティ」 animatable properties (不透明度やサイズなどが含まれます) ならば、値を変えるだけで自動的にアニメーション implicit animation が実行されます。時計の針の角度のような、自分で定義したプロパティでもそれをするにはどうすれば?</p>
+
+<p>Google 検索に 3 時間お付き合いいただいた結果、iPhone OS 3.0 以降なら、CALayer の needsDisplayForKey: クラスメソッドで「変更されたら再描画が必要になるプロパティ」を指定できること、actionForKey: メソッドで「変更されたら実行するアクション (アニメーション)」を指定できることが分かりました。ここまでは簡単に調べられたのですが、時計の針をアニメーションさせるにはもう 1 つ注意すべきことがありました。こちらは後で紹介します。</p>
+
+<p>まずはソースコードを見てみましょう。</p>
+
+<p>はじめに、時計の針用のレイヤーを作るコードです:</p>
+<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="k">@implementation</span> <span class="nc">ClockView</span>
+
+<span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">awakeFromNib</span> <span class="p">{</span>
+    <span class="p">[</span><span class="nb">self</span> <span class="n">setupLayers</span><span class="p">];</span>
+    <span class="p">[</span><span class="nb">self</span> <span class="n">start</span><span class="p">];</span>
+<span class="p">}</span>
+
+<span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">start</span> <span class="p">{</span>
+    <span class="c1">// tick メソッドを呼び出すタイマーを作成</span>
+    <span class="bp">NSTimer</span> <span class="o">*</span><span class="n">timer</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSTimer</span> <span class="nl">scheduledTimerWithTimeInterval</span><span class="p">:</span><span class="mf">1.0</span><span class="o">/</span><span class="mf">60.0</span> 
+        <span class="nl">target</span><span class="p">:</span><span class="nb">self</span>
+        <span class="nl">selector</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="n">tick</span><span class="p">)</span>
+        <span class="nl">userInfo</span><span class="p">:</span><span class="nb">nil</span>
+        <span class="nl">repeats</span><span class="p">:</span><span class="nb">YES</span><span class="p">];</span>
+    <span class="nb">self</span><span class="p">.</span><span class="n">animationTimer</span> <span class="o">=</span> <span class="n">timer</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">setupLayers</span> <span class="p">{</span>
+    <span class="cm">/*</span>
+<span class="cm">     各針用のレイヤーを追加。</span>
+<span class="cm">     angle を変化させてアニメーションする。</span>
+<span class="cm">     */</span>
+    <span class="p">{</span>
+        <span class="n">HandLayer</span> <span class="o">*</span><span class="n">hand</span> <span class="o">=</span> <span class="p">[[</span><span class="n">HandLayer</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+        <span class="n">hand</span><span class="p">.</span><span class="n">frame</span> <span class="o">=</span> <span class="nb">self</span><span class="p">.</span><span class="n">frame</span><span class="p">;</span>
+        <span class="nb">self</span><span class="p">.</span><span class="n">secondHand</span> <span class="o">=</span> <span class="n">hand</span><span class="p">;</span>
+        <span class="p">[</span><span class="n">hand</span> <span class="k">release</span><span class="p">];</span>
+        <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">layer</span> <span class="nl">addSublayer</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">secondHand</span><span class="p">];</span>
+    <span class="p">}</span>
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+
+<span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">tick</span> <span class="p">{</span>
+    <span class="c1">// 各針に新しい角度を通知</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>ここまでは大したことはありませんね。次がこの記事の心臓、アニメーション部分です:</p>
+<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="k">@interface</span> <span class="nc">HandLayer</span> : <span class="bp">CALayer</span> <span class="p">{</span>
+<span class="p">}</span>
+
+<span class="k">@property</span> <span class="n">CGFloat</span> <span class="n">angle</span><span class="p">;</span>
+
+<span class="k">@end</span>
+
+
+<span class="k">@implementation</span> <span class="nc">HandLayer</span>
+
+<span class="k">@dynamic</span> <span class="n">angle</span><span class="p">;</span>
+
+<span class="p">+</span> <span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nf">needsDisplayForKey:</span><span class="p">(</span><span class="bp">NSString</span><span class="o">*</span><span class="p">)</span><span class="nv">aKey</span> <span class="p">{</span>
+    <span class="c1">// angle が変わったら再描画がいるよ</span>
+    <span class="k">if</span> <span class="p">([</span><span class="n">aKey</span> <span class="nl">isEqualToString</span><span class="p">:</span><span class="s">@&quot;angle&quot;</span><span class="p">])</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nb">YES</span><span class="p">;</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="p">[</span><span class="nb">super</span> <span class="nl">needsDisplayForKey</span><span class="p">:</span><span class="n">aKey</span><span class="p">];</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="p">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nf">actionForKey:</span><span class="p">(</span><span class="bp">NSString</span> <span class="o">*</span><span class="p">)</span> <span class="nv">aKey</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">([</span><span class="n">aKey</span> <span class="nl">isEqualToString</span><span class="p">:</span><span class="s">@&quot;angle&quot;</span><span class="p">])</span> <span class="p">{</span>
+        <span class="c1">// angle 用の補間アニメーションを作る</span>
+        <span class="bp">CABasicAnimation</span> <span class="o">*</span><span class="n">theAnimation</span> <span class="o">=</span> <span class="p">[</span><span class="bp">CABasicAnimation</span>
+            <span class="nl">animationWithKeyPath</span><span class="p">:</span><span class="n">aKey</span><span class="p">];</span>
+        <span class="c1">// 注意: fromValue を設定しないと正しくアニメーションしない</span>
+        <span class="n">theAnimation</span><span class="p">.</span><span class="n">fromValue</span> <span class="o">=</span> <span class="p">[[</span><span class="nb">self</span> <span class="n">presentationLayer</span><span class="p">]</span> <span class="nl">valueForKey</span><span class="p">:</span><span class="n">aKey</span><span class="p">];</span>
+        <span class="k">return</span> <span class="n">theAnimation</span><span class="p">;</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="p">[</span><span class="nb">super</span> <span class="nl">actionForKey</span><span class="p">:</span><span class="n">aKey</span><span class="p">];</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">drawInContext:</span><span class="p">(</span><span class="n">CGContextRef</span><span class="p">)</span><span class="nv">context</span> <span class="p">{</span>
+    <span class="c1">// angle プロパティを参照しながら針を描画</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>theAnimation.fromValue を現在表示中の針の角度に設定していることに注意してください。これがドキュメントを探しても見つけられなかったポイントです。解決できたのは、<a href="http://www.omnigroup.com/blog/entry/Animating_CALayer_content">Omni Group のブログ記事 &quot;Animating CALayer content&quot;</a>のおかげでした。その当時は自分で needsDisplayForKey: 周辺の仕組みを実装しないといけなかったんですね。</p>
+
+<p>最後に、動画をどうぞ:</p>
+
+<iframe width="560" height="420" 
+        allowfullscreen="allowfullscreen"
+        src="http://www.youtube.com/embed/4rcE0kOrjVA?color=white&theme=light"> </iframe>
+
+<p>※ 動画中の針のアニメーションは、アニメーションのローカル時間を決める関数 timingFunction にデフォルトの線形タイプではなく kCAMediaTimingFunctionEaseIn を使っています。</p>
+
+<p>参考:</p>
+
+<ul>
+<li><p><a href="http://developer.apple.com/mac/library/documentation/cocoa/conceptual/CoreAnimation_guide/Introduction/Introduction.html">Core Animation Programming Guide</a></p></li>
+<li><p><a href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Reference/CALayer_class/Introduction/Introduction.html#//apple_ref/occ/clm/CALayer/needsDisplayForKey:">CALayer needsDisplayForKey:</a></p></li>
+<li><p><a href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Reference/CALayer_class/Introduction/Introduction.html#//apple_ref/occ/instm/CALayer/actionForKey:">CALayer actionForKey:</a></p></li>
+</ul>
+
+<p>追記:
+実際に実行されている補間アニメーションの開始値 fromValue → 終了値 toValue / 増加値 byValue をログに出してみました。</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">2010-03-13 11:12:41.179 app[14615:207] angle \
+&lt;CABasicAnimation: 0x3b02620&gt;, 6.283185 -&gt; (null) / (null)
+</code></pre></div>
+<p>fromValue が設定されていて、その他は設定されていないのが分かります。終了値が設定されていないのにどうやって補間しているのかは謎です...。</p>
+
+    </div>
+  </div>
+
+  
+  <div class="related">
+    <h4>Related Posts</h2>
+    <ul class="posts">
+        
+        <li>
+        <span>28 Jun 2013 &raquo;</span>
+        <a href="http://moonshine-project.com//ja/2013/06/28/titanium-iphone-android-crossplatform-gotchas/">iPhone向けに作られたTitaniumアプリのAndroid対応で気をつけること</a>
+        </li>
+        
+        <li>
+        <span>18 Apr 2013 &raquo;</span>
+        <a href="http://moonshine-project.com//ja/2013/04/18/mynovel-on-github/">小説を２倍に拡大表示してくれる「吾輩の小説」のコードを公開</a>
+        </li>
+        
+        <li>
+        <span>02 Jul 2010 &raquo;</span>
+        <a href="http://moonshine-project.com//ja/2010/07/02/iphone-pixel-processing-optimization-with-neon/">iPhoneでのピクセル処理をNEON(ベクタ演算)を使って4倍高速化する</a>
+        </li>
+        
+    </ul>
+  </div>
+  
+
+  <div class="post-footer" layout="horizontal">
+    <div flex="33" class="post-footer-prev">
+      
+        <a href="http://moonshine-project.com//ja/2010/03/13/solving-a-math-puzzle-with-clojure/"><< Older</a>
+      
+    </div>
+    <div flex="33" class="post-footer-home"><a href="http://moonshine-project.com// ">Home</a></div>
+    <div flex="33" class="post-footer-next">
+      
+        <a href="http://moonshine-project.com//en/2010/03/14/implicit-animation-of-custom-calayer-properties/">Newer >></a>
+      
+    </div>
+  </div>
+</div>
+ 
+
+        </div>
+      </md-content>
+    </div>
+    <script src="/bower_components/angular/angular.js"></script>
+    <script src="/bower_components/angular-aria/angular-aria.js"></script>
+    <script src="/bower_components/angular-animate/angular-animate.js"></script>
+    <script src="/bower_components/hammerjs/hammer.js"></script>
+    <script src="/bower_components/angular-material/angular-material.js"></script>
+    <script src="/assets/js/main.js"></script>
+    
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-536501-6']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+
+  </body>        
+</html>

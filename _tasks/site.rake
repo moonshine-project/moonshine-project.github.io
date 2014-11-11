@@ -19,8 +19,6 @@ end
 def check_destination
   unless Dir.exist? CONFIG["destination"]
     sh "git clone https://github.com/#{USERNAME}/#{REPO}.git #{CONFIG["destination"]}"
-    sh 'git config credential.helper "store --file=.git/credentials"'
-    sh 'echo "https://${GIT_NAME}:${GH_TOKEN}@github.com" > .git/credentials'
   end
 end
 
@@ -55,6 +53,8 @@ namespace :site do
     # Commit and push to github
     sha = `git log`.match(/[a-z0-9]{40}/)[0]
     Dir.chdir(CONFIG["destination"]) do
+      sh 'git config credential.helper "store --file=.git/credentials"'
+      sh "echo "https://${GIT_NAME}:${GH_TOKEN}@github.com" > .git/credentials"
       sh "git add --all ."
       sh "git commit -m 'Updating to #{USERNAME}/#{REPO}@#{sha}.'"
       sh "git push --quiet origin #{DESTINATION_BRANCH}"

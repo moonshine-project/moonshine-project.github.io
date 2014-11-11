@@ -41,6 +41,8 @@ include:
   - themes
   - angular-material.css
   - deep-purple-theme.css
+  - css
+  - normalize.css
   - modernizr.js
   - angular.js
   - angular-aria.js
@@ -61,7 +63,6 @@ copy:
 sass:
     sass_dir: assets/css/_sass
     load_paths:
-      - bower_components/foundation
       - bower_components/foundation/scss
       - bower_components/foundation-icon-fonts
     style: :compressed

@@ -1,7 +1,8 @@
-language: ruby
+language: node_js
 
 install:
   - bundle install
+  - npm install -g bower
   - bower install
 
 script: bundle exec rake site:deploy --quiet

@@ -1,0 +1,33 @@
+<div class="page-content archive">
+  {% if include.title %}
+  <h1>{{ include.title }}</h1>
+  {% endif %}
+  {% assign projects = include.projects | sort: "date" %}
+  {% for project in projects reversed %}
+    {% capture currentyear %}{{ project.date | date: "%Y" }}{% endcapture %}
+    {% capture currentseason %}{% season project.date %}{% endcapture %}
+{% if currentyear != lastyear %}
+  {% assign lastseason = '' %}
+{% endif %}
+{% if currentseason != lastseason %}
+  {% unless forloop.first %}</ul></div></div>{% endunless %}
+{% endif %}
+{% if currentyear != lastyear %}
+  <h2>{{ currentyear }}</h2>
+  {% capture lastyear %}{{currentyear}}{% endcapture %} 
+{% endif %}
+{% if currentseason != lastseason %}
+  <div layout="horizontal">
+    <div class="archive-subindex">
+      <h3>{{ currentseason }}</h3>
+    </div>
+    <div flex>
+      <ul class="projects no-bullet">
+  {% capture lastseason %}{{currentseason}}{% endcapture %} 
+{% endif %}
+       {% include project_item.html project=project %}
+    {% endfor %}
+      </ul>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,106 @@
+- _id: {$oid: 54057a8ae13823043e000003}
+  codename: dragonfang
+  date: '2014-07-01T00:00:00.000+0000'
+  display_name: ドラゴンファング ～竜者ドランと時の迷宮～
+  description: Rogue 風なスマホゲーム「ドラゴンファング ～竜者ドランと時の迷宮～」の管理ツールサーバとゲームデータコンバータの開発
+  tags: [Ruby, Ruby on Rails, scss, CoffeeScript, MySQL]
+- _id: {$oid: 53d8f07fe13823043e000002}
+  codename: so
+  display_name: とあるジャンルの店舗を利用者の評価によって探せるサービス
+  date: '2014-04-01T00:00:00.000+0000'
+  tags: [PHP, codeigniter, twig, MySQL, JavaScript, CoffeeScript, Backbone.js, SASS,
+    iPhone, Android]
+- _id: {$oid: 53d8ed8fe13823043e000001}
+  codename: al
+  date: '2014-06-30T00:00:00.000+0000'
+  display_name: ウォーキング用ナビアプリ
+  tags: [Android, Java, Google Maps, Location API, Bolts, EventBus, Dagger, GreenDAO,
+    OkHttp, Picasso, Jackson]
+- _id: {$oid: 53d8e7fce13823043e000000}
+  codename: mr
+  date: '2013-11-01T00:00:00.000+0000'
+  display_name: SNSで共有できるファッションカタログ iPhone アプリの開発
+  description: ファッションブランドが提供する情報を観覧することができるアプリ。SNSアカウントでログインすることによってブランド所属のモデルが配信する情報を共有する事も可能。
+  tags: [iOS, Objective-C, Python, Flask, MySQL, JavaScript, CoffeeScript]
+- _id: {$oid: 51ca89a78643b63faa000001}
+  codename: nc
+  date: '2013-01-15T00:00:00.000+0000'
+  display_name: ソーシャル系ニュース配信アプリの開発
+  description: ニュース配信を行うiPhoneアプリのクライアント側とサーバ側の開発。ニュース記事には「いいね」を付けることができ、その情報を他ユーザーと共有が可能。
+  tags: [iOS, Objective-C, Python, Flask, MySQL, MongoDB, JavaScript, CoffeeScript,
+    Backbone.js]
+- _id: {$oid: 51ca85598643b63faa000000}
+  codename: bl
+  date: '2013-05-01T00:00:00.000+0000'
+  display_name: iPhone用に作られたTitaniumアプリのAndroid対応
+  description: Titaniumを使用しiPhone用に作られたカメラ系アプリのAndroid対応。Androidで実行したときにのみ発生するエラーや表示系の不具合の修正と、カメラ撮影画面のモジュールを作成。
+  tags: [Titanium, Android, iOS, JavaScript, Java, Objective-C, GAE, Python]
+- _id: {$oid: 4fced1246388e739f5000000}
+  codename: mspwww
+  date: '2012-06-01T00:00:00.000+0000'
+  display_name: 自社ホームページのリニューアル
+  description: 好きな技術を使って自社ホームページをリニューアル
+  tags: [nginx, uWSGI, Python, Flask, Flask-Admin, MongoDB, EC2, Amazon Linux AMI,
+    SES, JavaScript, jQuery, Bootstrap, LESS]
+- _id: {$oid: 4fce37906388e72029000000}
+  codename: den
+  date: '2010-03-01T00:00:00.000+0000'
+  display_name: フィーチャーフォン用ゲームのiPhone移植
+  description: Javaで書かれたdocomo用のDoJaアプリをiPhone用としてObjective-Cに移植。
+  tags: [DoJa, Java, Objective-C]
+- _id: {$oid: 4fce31dc6388e710b4000001}
+  codename: au
+  date: '2010-08-01T00:00:00.000+0000'
+  display_name: ソーシャルゲームの最適化とリファクタリング
+  description: ソーシャルゲームのシステムを調査し、ActionScriptの処理速度が遅い箇所を最適化しつつ、問題の解決方法をクライアントに提案する。また、コードのリファクタリングを行う。
+  tags: [ActionScript 3, PureMVC, 独自Rubyフレームワーク]
+- _id: {$oid: 4fce29836388e710b4000000}
+  codename: mr
+  date: '2012-03-19T00:00:00.000+0000'
+  display_name: マーケティング用SNSプラットフォーム
+  description: SNS内でのユーザーのやり取りを分析し、マーケティングに役立てるためのプラットフォームです。アジャイルなアプローチで開発を進めています。
+  tags: [nginx, uWSGI, Python, Flask, Redis, celery, Node.js, MySQL, RDS, EC2, SES,
+    SNS, SQLAlchemy, Jinja2, jQuery, LESS, Bootstrap, d3.js, Server-sent events, fluentd,
+    logstash, riemann, Jenkins]
+- _id: {$oid: 4fce15826388e7544c000000}
+  codename: cc
+  date: '2010-10-01T00:00:00.000+0000'
+  display_name: ケータイ向け箱庭ソーシャルゲーム
+  description: アバターを着せ替えたり、家具や植物をコーディネートしたマイホームを友達に自慢したりできる、ケータイ向けmixiアプリです。Flashの生成、家の撮影
+    (Flashの画像化)、ゲーム内通貨でのアイテム販売を実装。運営中のサーバ保守も担当しました。
+  tags: [mixi Platform, Flash Lite 2.0, NIFTY Cloud, nginx, Python, MySQL, kumofs,
+    memcached, swfmill, GNU Gnash, gearman]
+- _id: {$oid: 4fcd6b1b6388e75cce000000}
+  codename: igateway
+  date: '2010-10-08T00:00:00.000+0000'
+  display_name: ソーシャルゲームのスマートフォン化プロクシーサーバ
+  description: フィーチャーフォン用に開発されたソーシャルゲームをスマートフォンで表示すると文字化けやレイアウト崩れ、課金APIの違いなどによる問題が起きます。サーバのフロントにプロクシーサーバを一台挟みこみ、ここでコンテンツの自動変換、課金APIへの対応を行うことで、最小限のコストでスマートフォン版対応が完了します。Pythonでプロトタイプ(製品に近い)を作成したのちPHPに移植しました。
+  tags: [PHP, MySQL, Yii, OpenSocial]
+- _id: {$oid: 4fc96d906388e77773000003}
+  codename: 漫画なう
+  date: '2012-02-01T00:00:00.000+0000'
+  display_name: 漫画なう
+  description: 本屋さんの新刊漫画コーナーを見ているかのように、発売されたばかりの漫画を確認できるアプリ。<a  target="_blank" href="http://itunes.apple.com/jp/app/id428724261">iPhone版</a>
+    <a  target="_blank" href="http://itunes.apple.com/jp/app/xin-kankomikku-biao-zhi-maii/id432287581?mt=8">iPad版</a>
+    <a  target="_blank" href="http://manga-now.com/">PC版</a>
+  tags: [Apache, Python, MySQL, Django, Jinja2, LESS, Objective-C, iPhone, iPad]
+- _id: {$oid: 4fc822626388e77773000002}
+  codename: tl
+  date: '2012-05-01T00:00:00.000+0000'
+  display_name: スマートフォン用ポイント管理アプリ
+  description: 実店舗をご利用いただいているお客様のポイント管理が行えるスマートフォン用アプリ。店舗からのお知らせ、クーポンなどの情報提供も可能。
+  tags: [nginx, uWSGI, Python, Flask, SQLAlchemy, MySQL, RDS, gearman, memcached,
+    EC2, SES, JavaScript, jQuery, Objective-C, Java, iPhone, Android]
+- _id: {$oid: 4fc8203e6388e77773000001}
+  codename: ss
+  date: '2011-12-01T00:00:00.000+0000'
+  display_name: ソーシャルゲーム開発ヘルプ
+  description: リリース直後のソーシャルゲーム開発プロジェクトに参加。１−２日でシステム構成やコードを把握したのち、クエストシステムの実装、ユーザー間トレードシステムの実装など、短期間で複数の機能を実装する。
+  tags: [Apache, PHP, MySQL, 独自フレームワーク]
+- _id: {$oid: 4fc81d0e6388e77773000000}
+  codename: mi
+  date: '2011-06-20T00:00:00.000+0000'
+  display_name: アンケート分析WEBサービス
+  description: 膨大なアンケートデータをリアルタイムに分析し、有意な項目を図やグラフで分かりやすく表示する。
+  tags: [nginx, uWSGI, Python, Flask, SQLAlchemy, MySQL, SQLite, RDS, gearman, memcached,
+    EC2, CloudWatch, Auto Scaling, SES, JavaScript, C5.0]

@@ -1,0 +1,43 @@
+<h2>Follow me</h2>
+
+{% for member in site.data.members %}
+<h3>@{{ member.nickname }}</h3>
+  <ul class="social-media">
+    {% if member.github %}
+    <li>
+        <a title="{{ member.github }} on Github" 
+           href="https://github.com/{{ member.github }}" 
+           class="fi-social-github"><span class="fontawesome-text">Github</span></a>
+    </li>
+    {% endif %} 
+    {% if member.facebook %}
+    <li>
+        <a title="{{ member.facebook }} on Facebook" 
+           href="https://facebook.com/{{ member.facebook }}" 
+           class="fi-social-facebook"><span class="fontawesome-text">Facebook</span></a>
+    </li>
+    {% endif %}
+    {% if member.twitter %}
+    <li>
+        <a title="{{ member.twitter }} on Twitter" 
+           href="https://twitter.com/{{ member.twitter }}" 
+           class="fi-social-twitter"><span class="fontawesome-text">Twitter</span></a>
+    </li>
+    {% endif %}
+    {% if member.gplus %}
+    <li>
+        <a title="{{ member.gplus }} on Google Plus" 
+           href="https://plus.google.com/{{ member.gplus }}" 
+           class="fi-social-google-plus"><span class="fontawesome-text">Google</span></a>
+    </li>
+    {% endif %}
+    {% if member.linkedin %}
+    <li>
+        <a title="{{ member.linkedin }} on LinkedIn" 
+           href="https://linkedin.com/in/{{ member.linkedin }}" 
+           class="fi-social-linkedin"><span class="fontawesome-text">LinkedIn</span></a>
+    </li>
+    {% endif %}
+</ul>
+{% endfor %}
+  

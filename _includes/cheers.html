@@ -1,0 +1,10 @@
+<div class="page-content projects">
+  {% if include.title %}
+  <h1>{{ include.title }}</h1>
+  {% endif %}
+  <div layout="horizontal" class="cheers">
+  {% for cheer in include.cheers %}
+     <a href="{{ cheer.url }}"><img alt="{{ cheer.name }}" src="{{ cheer.image }}" width="{{ cheer.width }}" height="{{ cheer.height }}"/></a>
+  {% endfor %}
+  </div>
+</div>

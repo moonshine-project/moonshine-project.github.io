@@ -1,0 +1,12 @@
+_site/
+.DS_Store
+.*.swp
+.idea
+.sass-cache/
+.bundle/
+.ruby-version
+*~
+/bower_components/
+/tmp/
+/vendor/
+

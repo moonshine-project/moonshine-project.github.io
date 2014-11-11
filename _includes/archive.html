@@ -1,0 +1,28 @@
+<div class="page-content archive">
+  <h1>{{ include.title }}</h1>
+  {% assign posts = site.posts | where:'lang',include.lang %}
+  {% for post in posts %}
+    {% assign currentyear = post.date | date: "%Y" %}
+    {% assign currentmonth = post.date | date: "%m"%}
+{% if currentmonth != lastmonth %}
+  {% unless forloop.first %}</ul></div></div>{% endunless %}
+{% endif %}
+{% if currentyear != lastyear %}
+  <h2>{{ currentyear }}</h2>
+  {% capture lastyear %}{{currentyear}}{% endcapture %} 
+{% endif %}
+{% if currentmonth != lastmonth %}
+  <div layout="vertical" layout-sm="vertical" layout-md="horizontal">
+    <div class="archive-subindex">
+      <h3>{{ currentmonth }}</h3>
+    </div>
+    <div class="archive-content">
+      <ul class="posts">
+  {% capture lastmonth %}{{ currentmonth }}{% endcapture %} 
+{% endif %}
+        <li><a href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a></li>
+    {% endfor %}
+      </ul>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,27 @@
+kyoto_summer:
+  url: http://itunes.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=326289706&mt=8
+  banner: /ja/files/2009/09/ja_pms1_dev_blog_barner_512.jpg
+  title:
+    ja: 京都　夏
+  full_title:
+    ja: 写真と地図で見る京都 夏
+kyoto_free:
+  url: http://itunes.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=331745127&mt=8
+  title:
+    ja: 写真と地図で見る京都 無料版
+kyoto_autumn:
+  url: http://itunes.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=331563765&mt=8
+  banner: /ja/files/2009/09/pms2_icon_reflection_96x100.png
+  title:
+    ja: 写真と地図で見る京都 秋
+yakushima:
+  url: http://itunes.apple.com/app/id343185653
+  banner: /ja/files/2009/12/phf1_icon_reflection_96x100.png
+  title:
+    ja: 屋久島　写真と地図で見る精霊の森
+mynovel:
+  url: http://itunes.apple.com/jp/app/id351820519?mt=8
+  banner: /ja/files/2010/02/nvv1_icon_reflection_96x100.png
+  title:
+    ja: 我輩の小説
+

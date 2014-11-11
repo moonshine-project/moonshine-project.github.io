@@ -1,0 +1,19 @@
+<li data-tags="{{ include.project.tags | join: ',' }}" class="project">
+  <h3 class="project-name">
+    {{ include.project.display_name }}
+    {% if include.date %}
+      <small class="project-date">
+        {{ include.project.date | date: "%Y" }}
+        {% season include.project.date %}
+      </small>
+    {% endif %}
+  </h3>
+{% if include.project.description %}
+  <p class="project-description">{{ include.project.description }}</p>
+{% endif %}
+  <div>
+  {% for tag in include.project.tags %}
+    <span class="label radius secondary">{{ tag }}</span>
+  {% endfor %}
+  </div>
+</li>

@@ -1,0 +1,66 @@
+safe: false
+
+baseurl:
+url: http://moonshine-project.com/
+
+meta:
+  name: Moonshine Project
+  description:
+  meta_description: >
+    Moonshine Project official website
+  google_analytics_key: UA-536501-6
+
+travis:
+  destination: ../master
+  username: moonshine-project
+  repo: moonshine-project.github.io
+  branch: source
+
+markdown: redcarpet
+redcarpet:
+  fenced_code_blocks: true
+highlighter: pygments
+
+permalink: pretty
+
+exclude: 
+  - .gitignore
+  - .sass-cache
+  - .travis.yml
+  - CNAME
+  - Gemfile
+  - Gemfile.lock
+  - Rakefile
+  - README.md
+  - LICENSE.md
+  - bower.json
+  - vendor
+  - bower_components/**/*
+
+include:
+  - themes
+  - angular-material.css
+  - deep-purple-theme.css
+  - modernizr.js
+  - angular.js
+  - angular-aria.js
+  - angular-animate.js
+  - hammer.js
+  - angular-material.js
+
+copy:
+  - src: bower_components/foundation-icon-fonts/foundation-icons.svg
+    dest: assets/css/
+  - src: bower_components/foundation-icon-fonts/foundation-icons.eot
+    dest: assets/css/
+  - src: bower_components/foundation-icon-fonts/foundation-icons.ttf
+    dest: assets/css/
+  - src: bower_components/foundation-icon-fonts/foundation-icons.woff
+    dest: assets/css/
+
+sass:
+    sass_dir: assets/css/_sass
+    load_paths:
+      - bower_components/foundation/scss
+      - bower_components/foundation-icon-fonts
+    style: :compressed

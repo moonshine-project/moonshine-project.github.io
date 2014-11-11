@@ -1,0 +1,5 @@
+{% if page.alts %}  
+  {% for alt in page.alts %}
+    <a href="{{alt.url}}" class="{{alt.lang}}">{{alt.lang}}</a>
+  {% endfor %}
+{% endif %}

@@ -1,0 +1,40 @@
+---
+layout: default
+name: index
+lang: ja
+---
+<div class="page-content">
+  <h1>あなたのチームにジャック・イン</h1>
+  <p>こちら <a href="https://www.facebook.com/akira.kozakai">akiraak</a> と <a href="http://www.linkedin.com/in/maricaodagaki">ento</a>、プログラマー2名による最新技術を使ってアプリやウェブサービスを開発するチームです。SSHでつながる環境さえあれば、世界中どこへでもお仕事のお邪魔にまいります。おもしろい・役に立つ・新しいことには目がありません。</p>
+
+  <h2>最近のプロジェクト</h2>
+  {% assign recent_projects = site.data.projects | sort: "date" | reverse | slice: 0, 3 %}
+  <ol class="projects no-bullet">
+    {% for project in recent_projects %}
+    {% include project_item.html project=project date='true' %}
+    {% endfor %}
+  </ol>
+
+  <div layout="horizontal" class="labeled-divider">
+    <md-divider flex></md-divider>
+    <a href="{{ '/ja/projects/' | prepend: site.baseurl | prepend: site.url }}">&raquo; Project archive &laquo;</a>
+    <md-divider flex></md-divider>
+  </div>
+
+  <h2>最近の記事</h2>
+  <ol class="posts no-bullet">
+    {% for post in site.posts limit:3 %}
+      <li class="post">
+        <h3 class="post-title">
+          <a href="{{ post.url | prepend: site.baseurl | prepend: site.url }}">{{ post.title }}</a>
+          <small class="post-date">{{ post.date | date_to_string }}</small>
+        </h3>
+      </li>
+    {% endfor %}
+  </ul>
+  <div layout="horizontal" class="labeled-divider">
+    <md-divider flex></md-divider>
+    <a href="{{ '/ja/blog' | prepend: site.baseurl | prepend: site.url }}">&raquo; Blog archive &laquo;</a>
+    <md-divider flex></md-divider>
+  </div>
+</div>

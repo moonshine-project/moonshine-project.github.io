@@ -19,6 +19,8 @@ end
 def check_destination
   unless Dir.exist? CONFIG["destination"]
     sh "git clone https://github.com/#{USERNAME}/#{REPO}.git #{CONFIG["destination"]}"
+    sh 'git config credential.helper "store --file=.git/credentials"'
+    sh 'echo "https://${GH_TOKEN}:@github.com" > .git/credentials'
   end
 end
 

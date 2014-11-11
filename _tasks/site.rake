@@ -44,7 +44,7 @@ namespace :site do
     sh "git checkout #{SOURCE_BRANCH}"
     Dir.chdir(CONFIG["destination"]) { sh "git checkout #{DESTINATION_BRANCH}" }
     File.open("_config_travis.yml", "w") do |f|
-      f.write {destination: CONFIG["destination"]}.to_yaml
+      f.write({"destination" => CONFIG["destination"]}.to_yaml)
     end
 
     # Generate the site

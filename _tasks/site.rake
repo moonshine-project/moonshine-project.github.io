@@ -1,3 +1,5 @@
+require 'yaml'
+
 CONFIG = YAML.load(File.read('_config.yml'))["travis"]
 USERNAME = CONFIG["username"] || ENV['GIT_NAME']
 REPO = CONFIG["repo"] || "#{USERNAME}.github.io"

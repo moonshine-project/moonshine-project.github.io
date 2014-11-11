@@ -1,3 +1,11 @@
+## Getting Started
+
+```sh
+$ bundle
+$ bower install
+$ jekyll serve
+```
+
 ## Colophon
 
 [![Build Status](https://travis-ci.org/moonshine-project/moonshine-project.github.io.svg?branch=master)](https://travis-ci.org/moonshine-project/moonshine-project.github.io)

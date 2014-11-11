@@ -14,4 +14,4 @@ script: bundle exec rake site:deploy --quiet
 env:
   global:
     # travis encrypt 'GIT_NAME="YOUR_USERNAME" GIT_EMAIL="YOUR_EMAIL" GH_TOKEN=YOUR_TOKEN'
-    secure: "NzJLk3chJ3JHFyXDk7TZtJnG4ZescIUexEuES0Au9Z4zjwrLlVys/opdqaDK62c6oM/jM1YJxYjdr2+URHaMFgETtgU27TaZBepZwv5SethB/HrdgGaKxg1XqNHqlDZiaTEC+q+g2AtY5QzcidlOfPfQpN6l3jiczw1wFFbLN3A="
+    secure: "cSZ092T9zNyvG9AyQNLoQsuPXblU08r5mhMGnBX+2r5AFVBwRmPEQmg7bmT1gH0AfCpmw9P/OIu7/zii3X+euMcQebOh8V8glwRrbxfP3sU/QYyT8Gcry3VqzNBbTrrAkGRyxw8b+Wm9Dt9KIREV4qifEz4m7xtiNVfvjIp1JQk="

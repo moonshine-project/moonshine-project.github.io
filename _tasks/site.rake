@@ -43,9 +43,12 @@ namespace :site do
 
     sh "git checkout #{SOURCE_BRANCH}"
     Dir.chdir(CONFIG["destination"]) { sh "git checkout #{DESTINATION_BRANCH}" }
+    File.open("_config_travis.yml", "w") do |f|
+      f.write {destination: CONFIG["destination"]}.to_yaml
+    end
 
     # Generate the site
-    sh "bundle exec jekyll build --destionation #{CONFIG["destination"]}"
+    sh "bundle exec jekyll build --config _config.yml,_config_travis.yml"
 
     # Commit and push to github
     sha = `git log`.match(/[a-z0-9]{40}/)[0]

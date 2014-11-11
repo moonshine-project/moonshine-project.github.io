@@ -5,6 +5,10 @@ install:
   - npm install -g bower
   - bower install
 
+before_script:
+  - git config credential.helper "store --file=.git/credentials"
+  - echo "https://${GH_TOKEN}:@github.com" > .git/credentials
+
 script: bundle exec rake site:deploy --quiet
 
 env:

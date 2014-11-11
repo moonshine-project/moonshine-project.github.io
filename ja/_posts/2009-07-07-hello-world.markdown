@@ -6,7 +6,7 @@ layout: post
 slug: hello-world
 title: Hello world!
 lang: ja
-categories:
+tags:
 - その他
 ---
 

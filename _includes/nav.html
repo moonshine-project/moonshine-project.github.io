@@ -1,6 +1,6 @@
 {% assign lang = page.lang %}
 {% for menu in site.data.nav %}
   {% if menu[lang] %}
-    <a class="sidenav-item" href="{{menu.url | prepend: lang | prepend: '/' | prepend: site.baseurl | prepend: site.url }}">{{menu[lang]}}</a>
+    <a class="sidenav-item" href="{{menu.url | prepend: lang | prepend: '/' | prepend: site.baseurl }}">{{menu[lang]}}</a>
   {% endif %}
 {% endfor %}

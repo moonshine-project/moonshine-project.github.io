@@ -17,7 +17,7 @@ lang: ja
 
   <div layout="horizontal" class="labeled-divider">
     <md-divider flex></md-divider>
-    <a href="{{ '/ja/projects/' | prepend: site.baseurl | prepend: site.url }}">&raquo; Project archive &laquo;</a>
+    <a href="{{ '/ja/projects/' | prepend: site.baseurl }}">&raquo; Project archive &laquo;</a>
     <md-divider flex></md-divider>
   </div>
 
@@ -26,7 +26,7 @@ lang: ja
     {% for post in site.posts limit:3 %}
       <li class="post">
         <h3 class="post-title">
-          <a href="{{ post.url | prepend: site.baseurl | prepend: site.url }}">{{ post.title }}</a>
+          <a href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
           <small class="post-date">{{ post.date | date_to_string }}</small>
         </h3>
       </li>
@@ -34,7 +34,7 @@ lang: ja
   </ul>
   <div layout="horizontal" class="labeled-divider">
     <md-divider flex></md-divider>
-    <a href="{{ '/ja/blog' | prepend: site.baseurl | prepend: site.url }}">&raquo; Blog archive &laquo;</a>
+    <a href="{{ '/ja/blog' | prepend: site.baseurl }}">&raquo; Blog archive &laquo;</a>
     <md-divider flex></md-divider>
   </div>
 </div>

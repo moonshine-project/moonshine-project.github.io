@@ -8,7 +8,7 @@ $ jekyll serve
 
 ## Colophon
 
-[![Build Status](https://travis-ci.org/moonshine-project/moonshine-project.github.io.svg?branch=master)](https://travis-ci.org/moonshine-project/moonshine-project.github.io)
+[![Build Status](https://travis-ci.org/moonshine-project/moonshine-project.github.io.svg?branch=source)](https://travis-ci.org/moonshine-project/moonshine-project.github.io)
 
 - [Jekyll](http://jekyllrb.com/)
 - [Harmony](https://github.com/web-create/harmony/)

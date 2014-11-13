@@ -495,13 +495,14 @@ tbody tr:nth-child(odd) th {
   }
 
   h3 {
-    color: darken($orange, 15%);
     line-height: 1.4;
     margin: 0 16px 0 0;
   }
 
   .archive-subindex {
-    
+    h3 {
+      color: darken($orange, 15%);
+    }
   }
 
   .archive-content {

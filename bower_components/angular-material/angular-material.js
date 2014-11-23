@@ -2,7 +2,7 @@
  * Angular Material Design
  * https://github.com/angular/material
  * @license MIT
- * v0.5.1-master-7bcd12f
+ * v0.6.0-rc1
  */
 angular.module('ngMaterial', ["ng","ngAnimate","ngAria","material.core","material.components.backdrop","material.components.bottomSheet","material.components.button","material.components.card","material.components.checkbox","material.components.content","material.components.dialog","material.components.divider","material.components.icon","material.components.list","material.components.progressCircular","material.components.progressLinear","material.components.radioButton","material.components.sidenav","material.components.slider","material.components.sticky","material.components.subheader","material.components.swipe","material.components.switch","material.components.tabs","material.components.textField","material.components.toast","material.components.toolbar","material.components.tooltip","material.components.whiteframe"]);
 (function() {
@@ -1035,7 +1035,6 @@ function InterimElementProvider() {
 (function() {
 'use strict';
 
-
 angular.module('material.core')
   .factory('$mdInkRipple', InkRippleService)
   .directive('mdInkRipple', InkRippleDirective)
@@ -1054,7 +1053,7 @@ function InkRippleDirective($mdInkRipple) {
 }
 InkRippleDirective.$inject = ["$mdInkRipple"];
 
-function InkRippleService($window, $$rAF, $mdUtil, $timeout, $mdConstant) {
+function InkRippleService($window, $timeout) {
 
   return {
     attachButtonBehavior: attachButtonBehavior,
@@ -1064,72 +1063,59 @@ function InkRippleService($window, $$rAF, $mdUtil, $timeout, $mdConstant) {
 
   function attachButtonBehavior(element) {
     return attach(element, {
-      mousedown: true,
-      center: false,
-      animationDuration: 350,
-      mousedownPauseTime: 175,
-      animationName: 'inkRippleButton',
-      animationTimingFunction: 'linear'
+      center: element.hasClass('md-fab'),
+      dimBackground: true
     });
   }
 
   function attachCheckboxBehavior(element) {
     return attach(element, {
-      mousedown: true,
       center: true,
-      animationDuration: 300,
-      mousedownPauseTime: 180,
-      animationName: 'inkRippleCheckbox',
-      animationTimingFunction: 'linear'
+      dimBackground: false
     });
   }
 
   function attach(element, options) {
-    // Parent element with mdNoInk attr? Abort.
+
     if (element.controller('mdNoInk')) return angular.noop;
-    var contentParent = element.controller('mdContent');
+
+    var rippleContainer, rippleEl,
+        node = element[0],
+        hammertime = new Hammer(node),
+        contentParent = element.controller('mdContent');
 
     options = angular.extend({
       mousedown: true,
       hover: true,
       focus: true,
       center: false,
-      animationDuration: 300,
       mousedownPauseTime: 150,
-      animationName: '',
-      animationTimingFunction: 'linear'
+      dimBackground: false
     }, options || {});
 
-    var rippleContainer;
-    var node = element[0];
-    var hammertime = new Hammer(node);
-
-    if (options.mousedown) {
-      hammertime.on('hammer.input', onInput);
-    }
+    options.mousedown && hammertime.on('hammer.input', onInput);
 
     // Publish self-detach method if desired...
     return function detach() {
       hammertime.destroy();
-      if (rippleContainer) {
-        rippleContainer.remove();
-      }
+      rippleContainer && rippleContainer.remove();
     };
 
     function rippleIsAllowed() {
-      return !element[0].hasAttribute('disabled') && 
-        !(element[0].parentNode && element[0].parentNode.hasAttribute('disabled'));
+      var parent;
+      return !element[0].hasAttribute('disabled') &&
+          !((parent = element[0].parentNode) && parent.hasAttribute('disabled'));
+    }
+
+    function removeElement(element, wait) {
+      $timeout(function () {
+        element.remove();
+      }, wait, false);
     }
 
     function createRipple(left, top, positionsAreAbsolute) {
 
-      var rippleEl = angular.element('<div class="md-ripple">')
-            .css($mdConstant.CSS.ANIMATION_DURATION, options.animationDuration + 'ms')
-            .css($mdConstant.CSS.ANIMATION_NAME, options.animationName)
-            .css($mdConstant.CSS.ANIMATION_TIMING, options.animationTimingFunction)
-            .on($mdConstant.CSS.ANIMATIONEND, function() {
-              rippleEl.remove();
-            });
+      var rippleEl = angular.element('<div class="md-ripple">');
 
       if (!rippleContainer) {
         rippleContainer = angular.element('<div class="md-ripple-container">');
@@ -1137,62 +1123,80 @@ function InkRippleService($window, $$rAF, $mdUtil, $timeout, $mdConstant) {
       }
       rippleContainer.append(rippleEl);
 
-      var containerWidth = rippleContainer.prop('offsetWidth');
-
-      if (options.center) {
-        left = containerWidth / 2;
-        top = rippleContainer.prop('offsetHeight') / 2;
-      } else if (positionsAreAbsolute) {
-        var elementRect = node.getBoundingClientRect();
-        left -= elementRect.left;
-        top -= elementRect.top;
-      }
+      var containerWidth = rippleContainer.prop('offsetWidth'),
+          containerHeight = rippleContainer.prop('offsetHeight'),
+          multiplier = element.hasClass('md-fab') ? 1.1 : 0.8,
+          diagonalWidth = Math.max(containerWidth, containerHeight) * multiplier;
 
       if (contentParent) {
         top += contentParent.$element.prop('scrollTop');
       }
 
       var css = {
-        'background-color': $window.getComputedStyle(rippleEl[0]).color || 
-          $window.getComputedStyle(node).color,
-        'border-radius': (containerWidth / 2) + 'px',
-
-        left: (left - containerWidth / 2) + 'px',
-        width: containerWidth + 'px',
-
-        top: (top - containerWidth / 2) + 'px',
-        height: containerWidth + 'px'
+        backgroundColor: $window.getComputedStyle(rippleEl[0]).color ||  $window.getComputedStyle(node).color,
+        width: diagonalWidth + 'px',
+        height: diagonalWidth + 'px',
+        marginLeft: (diagonalWidth * -0.5) + 'px',
+        marginTop: (diagonalWidth * -0.5) + 'px'
       };
-      css[$mdConstant.CSS.ANIMATION_DURATION] = options.fadeoutDuration + 'ms';
+
+      if (options.center) {
+        css.left = '50%';
+        css.top = '50%';
+      } else if (positionsAreAbsolute) {
+        var elementRect = node.getBoundingClientRect();
+        left -= elementRect.left;
+        top -= elementRect.top;
+        css.left = Math.round(left / containerWidth * 100) + '%';
+        css.top = Math.round(top / containerHeight * 100) + '%';
+      }
+
       rippleEl.css(css);
 
+      //-- Use minimum timeout to trigger CSS animation
+      $timeout(function () {
+        if (options.dimBackground) {
+          rippleContainer.addClass('md-ripple-full md-ripple-visible');
+          rippleContainer.css({ backgroundColor: css.backgroundColor.replace(')', ', 0.1').replace('(', 'a(') });
+        }
+        rippleEl.addClass('md-ripple-placed md-ripple-visible md-ripple-scaled md-ripple-full');
+        rippleEl.css({ left: '50%', top: '50%' });
+        $timeout(function () {
+          if (rippleEl) {
+            rippleEl.removeClass('md-ripple-full');
+            if (!rippleEl.hasClass('md-ripple-visible')) {
+              removeElement(rippleEl, 650);
+              rippleEl = null;
+            }
+          }
+          rippleEl && rippleEl.removeClass('md-ripple-full');
+          if (rippleContainer && options.dimBackground) {
+            rippleContainer.removeClass('md-ripple-full');
+            if (!rippleContainer.hasClass('md-ripple-visible')) rippleContainer.css({ backgroundColor: '' });
+          }
+        }, 225, false);
+      }, 0, false);
       return rippleEl;
     }
 
-    var pauseTimeout;
-    var rippleEl;
     function onInput(ev) {
       if (ev.eventType === Hammer.INPUT_START && ev.isFirst && rippleIsAllowed()) {
-
         rippleEl = createRipple(ev.center.x, ev.center.y, true);
-        pauseTimeout = $timeout(function() {
-          rippleEl && rippleEl.css($mdConstant.CSS.ANIMATION_PLAY_STATE, 'paused');
-        }, options.mousedownPauseTime, false);
-
-        rippleEl.on('$destroy', function() {
-          rippleEl = null;
-        });
-
       } else if (ev.eventType === Hammer.INPUT_END && ev.isFinal) {
-        $timeout.cancel(pauseTimeout);
-        rippleEl && rippleEl.css($mdConstant.CSS.ANIMATION_PLAY_STATE, '');
+        if (rippleEl) {
+          rippleEl.removeClass('md-ripple-visible');
+          removeElement(rippleEl, 650);
+          rippleEl = null;
+        }
+        if (rippleContainer && options.dimBackground) {
+          rippleContainer.removeClass('md-ripple-visible');
+          if (!rippleContainer.hasClass('md-ripple-full')) rippleContainer.css({ backgroundColor: '' });
+        }
       }
     }
-
   }
-
 }
-InkRippleService.$inject = ["$window", "$$rAF", "$mdUtil", "$timeout", "$mdConstant"];
+InkRippleService.$inject = ["$window", "$timeout"];
 
 /**
  * noink/nobar/nostretch directive: make any element that has one of
@@ -1241,7 +1245,7 @@ function attrNoDirective() {
 angular.module('material.core')
   .directive('mdTheme', ThemingDirective)
   .directive('mdThemable', ThemableDirective)
-  .provider('$mdTheming', Theming);
+  .provider('$mdTheming', ThemingProvider);
 
 /**
  * @ngdoc provider
@@ -1264,28 +1268,7 @@ angular.module('material.core')
  * classes when they change. Default is `false`. Enabling can reduce performance.
  */
 
-/**
- * @ngdoc service
- * @name $mdTheming
- *
- * @description
- *
- * Service that makes an element apply theming related classes to itself.
- *
- * ```js
- * app.directive('myFancyDirective', function($mdTheming) {
- *   return {
- *     restrict: 'e',
- *     link: function(scope, el, attrs) {
- *       $mdTheming(el);
- *     }
- *   };
- * });
- * ```
- * @param {el=} element to apply theming to
- */
-
-function Theming($injector) {
+function ThemingProvider() {
   var defaultTheme = 'default';
   var alwaysWatchTheme = false;
   return {
@@ -1295,17 +1278,37 @@ function Theming($injector) {
     alwaysWatchTheme: function(alwaysWatch) {
       alwaysWatchTheme = alwaysWatch;
     },
-    $get: ['$rootElement', '$rootScope', ThemingService]
+    $get: ['$rootScope', ThemingService]
   };
 
-  function ThemingService($rootElement, $rootScope) {
+  /**
+   * @ngdoc service
+   * @name $mdTheming
+   *
+   * @description
+   *
+   * Service that makes an element apply theming related classes to itself.
+   *
+   * ```js
+   * app.directive('myFancyDirective', function($mdTheming) {
+   *   return {
+   *     restrict: 'e',
+   *     link: function(scope, el, attrs) {
+   *       $mdTheming(el);
+   *     }
+   *   };
+   * });
+   * ```
+   * @param {el=} element to apply theming to
+   */
+  function ThemingService($rootScope) {
     applyTheme.inherit = function(el, parent) {
       var ctrl = parent.controller('mdTheme');
 
       var attrThemeValue = el.attr('md-theme-watch');
-      if ( (alwaysWatchTheme || angular.isDefined(attrThemeValue)) && attrThemeValue != 'false') { 
-        var deregisterWatch = $rootScope.$watch(function() { 
-          return ctrl && ctrl.$mdTheme || defaultTheme; 
+      if ( (alwaysWatchTheme || angular.isDefined(attrThemeValue)) && attrThemeValue != 'false') {
+        var deregisterWatch = $rootScope.$watch(function() {
+          return ctrl && ctrl.$mdTheme || defaultTheme;
         }, changeTheme);
         el.on('$destroy', deregisterWatch);
       } else {
@@ -1325,7 +1328,7 @@ function Theming($injector) {
 
     function applyTheme(scope, el) {
       // Allow us to be invoked via a linking function signature.
-      if (el === undefined) { 
+      if (el === undefined) {
         el = scope;
         scope = undefined;
       }
@@ -1336,7 +1339,8 @@ function Theming($injector) {
     }
   }
 }
-Theming.$inject = ["$injector"];
+
+
 
 function ThemingDirective($interpolate) {
   return {
@@ -1532,6 +1536,7 @@ function MdBottomSheetProvider($$interimElementProvider) {
       backdrop.on('click touchstart', function() {
         $timeout($mdBottomSheet.cancel);
       });
+
       $mdTheming.inherit(backdrop, options.parent);
 
       $animate.enter(backdrop, options.parent, null);
@@ -1543,7 +1548,15 @@ function MdBottomSheetProvider($$interimElementProvider) {
       options.targetEvent && angular.element(options.targetEvent.target).blur();
       $mdTheming.inherit(bottomSheet.element, options.parent);
 
-      return $animate.enter(bottomSheet.element, options.parent);
+      return $animate.enter(bottomSheet.element, options.parent)
+        .then(function() {
+          var focusableItems = angular.element(
+            element[0].querySelector('button') ||
+            element[0].querySelector('a') ||
+            element[0].querySelector('[ng-click]')
+          );
+          focusableItems.eq(0).focus();
+        });
 
     }
 
@@ -1693,7 +1706,7 @@ angular.module('material.components.button', [
  * become a `<button>` element.
  *
  * @param {boolean=} mdNoInk If present, disable ripple ink effects.
- * @param {boolean=} disabled If present, disable selection.
+ * @param {expression=} ngDisabled En/Disable based on the expre
  * @param {string=} ariaLabel Publish the button label used by screen-readers for accessibility. Defaults to the button's text.
  *
  * @usage
@@ -1704,7 +1717,7 @@ angular.module('material.components.button', [
  *  <md-button href="http://google.com" class="md-button-colored">
  *    I'm a link
  *  </md-button>
- *  <md-button disabled class="md-colored">
+ *  <md-button ng-disabled="true" class="md-colored">
  *    I'm a disabled button
  *  </md-button>
  * </hljs>
@@ -1724,12 +1737,11 @@ function MdButtonDirective($mdInkRipple, $mdTheming, $mdAria) {
   }
   
   function getTemplate(element, attr) {
-    var tag = isAnchor(attr) ? 'a' : 'button';
-    //We need to manually pass disabled to the replaced element because
-    //of a bug where it isn't always passed.
-    var disabled = element[0].hasAttribute('disabled') ? ' disabled ' : ' ';
-
-    return '<' + tag + disabled + 'class="md-button" ng-transclude></' + tag + '>';
+    if (isAnchor(attr)) {
+      return '<a class="md-button" ng-transclude></a>';
+    } else {
+      return '<button class="md-button" ng-transclude></button>';
+    }
   }
 
   function postLink(scope, element, attr) {
@@ -1745,9 +1757,7 @@ function MdButtonDirective($mdInkRipple, $mdTheming, $mdAria) {
     // For anchor elements, we have to set tabindex manually when the 
     // element is disabled
     if (isAnchor(attr)) {
-      scope.$watch(function() {
-        return node.hasAttribute('disabled');
-      }, function(isDisabled) {
+      scope.$watch(attr.ngDisabled, function(isDisabled) {
         element.attr('tabindex', isDisabled ? -1 : 0);
       });
     }
@@ -1838,7 +1848,6 @@ angular.module('material.components.checkbox', [
  * @param {expression=} ngFalseValue The value to which the expression should be set when not selected.
  * @param {string=} ngChange Angular expression to be executed when input changes due to user interaction with the input element.
  * @param {boolean=} mdNoInk Use of attribute indicates use of ripple ink effects
- * @param {boolean=} disabled Use of attribute indicates the switch is disabled: no ink effects and not selectable
  * @param {string=} ariaLabel Publish the button label used by screen-readers for accessibility. Defaults to the checkbox's text.
  *
  * @usage
@@ -1851,7 +1860,7 @@ angular.module('material.components.checkbox', [
  *   No Ink Effects
  * </md-checkbox>
  *
- * <md-checkbox disabled ng-model="isDisabled" aria-label="Disabled">
+ * <md-checkbox ng-disabled="true" ng-model="isDisabled" aria-label="Disabled">
  *   Disabled
  * </md-checkbox>
  *
@@ -2906,6 +2915,11 @@ angular.module('material.components.radioButton', [
  * container for the 1..n grouped radio buttons; specified using nested
  * `<md-radio-button>` tags.
  *
+ * Note: `<md-radio-group>` and `<md-radio-button>` handle tabindex differently
+ * than the native `<input type='radio'>` controls. Whereas the native controls
+ * force the user to tab through all the radio buttons, `<md-radio-group>`
+ * is focusable, and by default the `<md-radio-button>`s are not.
+ *
  * @param {string} ngModel Assignable angular expression to data-bind to.
  * @param {boolean=} mdNoInk Use of attribute indicates flag to disable ink ripple effects.
  *
@@ -2932,10 +2946,10 @@ function mdRadioGroupDirective($mdUtil, $mdConstant, $mdTheming) {
     restrict: 'E',
     controller: ['$element', RadioGroupController],
     require: ['mdRadioGroup', '?ngModel'],
-    link: link
+    link: linkRadioGroup
   };
 
-  function link(scope, element, attr, ctrls) {
+  function linkRadioGroup(scope, element, attr, ctrls) {
     $mdTheming(element);
     var rgCtrl = ctrls[0],
       ngModelCtrl = ctrls[1] || {
@@ -2956,10 +2970,11 @@ function mdRadioGroupDirective($mdUtil, $mdConstant, $mdTheming) {
     rgCtrl.init(ngModelCtrl);
 
     element.attr({
-      'role': 'radiogroup',
-      'tabIndex': '0'
-    })
-    .on('keydown', keydownListener);
+              'role': 'radiogroup',
+              'tabIndex': element.attr('tabindex') || '0'
+            })
+            .on('keydown', keydownListener);
+
   }
 
   function RadioGroupController($element) {
@@ -3073,7 +3088,7 @@ function mdRadioButtonDirective($mdAria, $mdUtil, $mdTheming) {
     restrict: 'E',
     require: '^mdRadioGroup',
     transclude: true,
-    template: '<div class="md-container" ink-ripple="checkbox">' +
+    template: '<div class="md-container" md-ink-ripple="checkbox">' +
                 '<div class="md-off"></div>' +
                 '<div class="md-on"></div>' +
               '</div>' +
@@ -3259,7 +3274,7 @@ mdSidenavService.$inject = ["$mdComponentRegistry"];
  *
  * @usage
  * <hljs lang="html">
- * <div layout="horizontal" ng-controller="MyController">
+ * <div layout="row" ng-controller="MyController">
  *   <md-sidenav md-component-id="left" class="md-sidenav-left">
  *     Left Nav!
  *   </md-sidenav>
@@ -3605,8 +3620,6 @@ function SliderController($scope, $element, $attrs, $$rAF, $window, $mdAria, $md
     var stopDisabledWatch = angular.noop;
     if ($attrs.ngDisabled) {
       stopDisabledWatch = $scope.$parent.$watch($attrs.ngDisabled, updateAriaDisabled);
-    } else {
-      updateAriaDisabled(!!$attrs.disabled);
     }
 
     $mdAria.expect($element, 'aria-label');
@@ -4008,9 +4021,6 @@ function MdSticky($document, $mdConstant, $compile, $$rAF, $mdUtil) {
     }
 
     function refreshElements() {
-      var contentRect = contentEl[0].getBoundingClientRect();
-
-
       // Sort our collection of elements by their current position in the DOM.
       // We need to do this because our elements' order of being added may not
       // be the same as their order of display.
@@ -4509,7 +4519,6 @@ angular.module('material.components.switch', [
  * @param {expression=} ngFalseValue The value to which the expression should be set when not selected.
  * @param {string=} ngChange Angular expression to be executed when input changes due to user interaction with the input element.
  * @param {boolean=} mdNoInk Use of attribute indicates use of ripple ink effects.
- * @param {boolean=} disabled Use of attribute indicates the switch is disabled: no ink effects and not selectable
  * @param {string=} ariaLabel Publish the button label used by screen-readers for accessibility. Defaults to the switch's text.
  *
  * @usage
@@ -4522,7 +4531,7 @@ angular.module('material.components.switch', [
  *   No Ink Effects
  * </md-switch>
  *
- * <md-switch disabled ng-model="isDisabled" aria-label="Disabled">
+ * <md-switch ng-disabled="true" ng-model="isDisabled" aria-label="Disabled">
  *   Disabled
  * </md-switch>
  *
@@ -4545,17 +4554,11 @@ function MdSwitch(mdCheckboxDirective, mdRadioButtonDirective, $mdTheming) {
   };
 
   function compile(element, attr) {
-    
     var thumb = angular.element(element[0].querySelector('.md-switch-thumb'));
-    //Copy down disabled attributes for checkboxDirective to use
-    thumb.attr('disabled', attr.disabled);
-    thumb.attr('ngDisabled', attr.ngDisabled);
-
     var checkboxLink = checkboxDirective.compile(thumb, attr);
 
     return function (scope, element, attr, ngModelCtrl) {
       $mdTheming(element);
-      var thumb = angular.element(element[0].querySelector('.md-switch-thumb'));
       return checkboxLink(scope, thumb, attr, ngModelCtrl);
     };
   }
@@ -4619,13 +4622,13 @@ angular.module('material.components.textField', [
  * <md-text-float label="LastName" ng-model="user.lastName" > </md-text-float>
  *
  * <!-- Specify a read-only input field by using the `disabled` attribute -->
- * <md-text-float label="Company"  ng-model="user.company"    disabled > </md-text-float>
+ * <md-text-float label="Company"  ng-model="user.company" ng-disabled="true" > </md-text-float>
  *
  * <!-- Specify an input type if desired. -->
  * <md-text-float label="eMail"    ng-model="user.email" type="email" ></md-text-float>
  * </hljs>
  */
-function mdTextFloatDirective($mdTheming, $mdUtil) {
+function mdTextFloatDirective($mdTheming, $mdUtil, $parse) {
   return {
     restrict: 'E',
     replace: true,
@@ -4642,30 +4645,24 @@ function mdTextFloatDirective($mdTheming, $mdUtil) {
 
       return {
         pre : function(scope, element, attrs) {
-          // transpose `disabled` flag
-          if ( angular.isDefined(attrs.disabled) ) {
-            element.attr('disabled', true);
-            scope.isDisabled = true;
-          }
+          var disabledParsed = $parse(attrs.ngDisabled);
+          scope.isDisabled = function() {
+            return disabledParsed(scope.$parent);
+          };
 
           scope.inputType = attrs.type || "text";
-          element.removeAttr('type');
-
-          // transpose optional `class` settings
-          element.attr('class', attrs.class );
-
         },
         post: $mdTheming
       };
     },
     template:
-    '<md-input-group ng-disabled="isDisabled" tabindex="-1">' +
+    '<md-input-group tabindex="-1">' +
     ' <label for="{{fid}}" >{{label}}</label>' +
-    ' <md-input id="{{fid}}" ng-model="value" type="{{inputType}}"></md-input>' +
+    ' <md-input id="{{fid}}" ng-disabled="isDisabled()" ng-model="value" type="{{inputType}}"></md-input>' +
     '</md-input-group>'
   };
 }
-mdTextFloatDirective.$inject = ["$mdTheming", "$mdUtil"];
+mdTextFloatDirective.$inject = ["$mdTheming", "$mdUtil", "$parse"];
 
 /*
  * @private
@@ -4732,15 +4729,11 @@ function mdInputDirective($mdUtil) {
       var inputGroupCtrl = ctrls[0];
       var ngModelCtrl = ctrls[1];
 
-      // scan for disabled and transpose the `type` value to the <input> element
-      var parent = element[0].parentNode;
-      var isDisabled = parent && parent.hasAttribute('disabled');
-
-      element.attr({
-        'tabindex': isDisabled ? -1 : 0,
-        'aria-disabled': isDisabled ? 'true' : 'false',
-        'type': attr.type || element.parent().attr('type') || "text"
+      scope.$watch(scope.isDisabled, function(isDisabled) {
+        element.attr('aria-disabled', !!isDisabled);
+        element.attr('tabindex', !!isDisabled);
       });
+      element.attr('type', attr.type || element.parent().attr('type') || "text");
 
       // When the input value changes, check if it "has" a value, and
       // set the appropriate class on the input group
@@ -4775,7 +4768,7 @@ function mdInputDirective($mdUtil) {
       function isNotEmpty(value) {
         value = angular.isUndefined(value) ? element.val() : value;
         return (angular.isDefined(value) && (value!==null) &&
-               (value.toString().trim() != ""));
+               (value.toString().trim() !== ""));
       }
     }
   };
@@ -5027,7 +5020,7 @@ angular.module('material.components.toolbar', [
  *
  * @usage
  * <hljs lang="html">
- * <div layout="vertical" layout-fill>
+ * <div layout="column" layout-fill>
  *   <md-toolbar>
  *
  *     <div class="md-toolbar-tools">
@@ -5616,7 +5609,7 @@ TabPaginationDirective.$inject = ["$mdConstant", "$window", "$$rAF", "$$q", "$ti
 angular.module('material.components.tabs')
   .controller('$mdTab', TabItemController);
 
-function TabItemController($scope, $element, $compile, $animate, $mdUtil) {
+function TabItemController($scope, $element, $attrs, $compile, $animate, $mdUtil, $parse) {
   var self = this;
 
   // Properties
@@ -5631,8 +5624,9 @@ function TabItemController($scope, $element, $compile, $animate, $mdUtil) {
   self.onSelect = onSelect;
   self.onDeselect = onDeselect;
 
+  var disabledParsed = $parse($attrs.ngDisabled);
   function isDisabled() {
-    return $element[0].hasAttribute('disabled');
+    return disabledParsed($scope.$parent);
   }
   
   /**
@@ -5686,7 +5680,7 @@ function TabItemController($scope, $element, $compile, $animate, $mdUtil) {
   }
 
 }
-TabItemController.$inject = ["$scope", "$element", "$compile", "$animate", "$mdUtil"];
+TabItemController.$inject = ["$scope", "$element", "$attrs", "$compile", "$animate", "$mdUtil", "$parse"];
 
 })();
 

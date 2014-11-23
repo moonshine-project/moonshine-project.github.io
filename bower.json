@@ -15,7 +15,7 @@
     "tests"
   ],
   "dependencies": {
-    "angular-material": "master",
+    "angular-material": "0.6.0-rc1",
     "foundation-icon-fonts": "*",
     "foundation": "~5.4.7"
   }

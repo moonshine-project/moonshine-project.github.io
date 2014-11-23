@@ -29,10 +29,10 @@
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->        
   </head>
-  <body layout="horizontal" md-theme="deep-purple">
-    <md-sidenav layout="vertical" md-component-id="left" class="md-sidenav-left md-whiteframe-z2" id="footered-sidenav" md-is-locked-open="$media('md')">
+  <body layout="row" md-theme="deep-purple">
+    <md-sidenav layout="column" md-component-id="left" class="md-sidenav-left md-whiteframe-z2" id="footered-sidenav" md-is-locked-open="$media('md')">
       <md-toolbar class="md-medium-tall" id="footered-sidenav-toolbar"></md-toolbar>
-      <md-content layout="vertical" class="footered-sidenav-content">
+      <md-content layout="column" class="footered-sidenav-content">
         
 
   
@@ -128,11 +128,11 @@
         </footer>
       </md-content>
     </md-sidenav>
-    <div layout="vertical" layout-fill role="main">
+    <div layout="column" layout-fill role="main">
       <md-toolbar class="md-medium-tall">
         <header>
           <div class="md-toolbar-tools content-container">
-            <button class="menu-icon" hide-md aria-label="Open Menu" ng-click="openMenu()">
+            <button class="menu-icon" hide show-phone aria-label="Open Menu" ng-click="openMenu()">
               <span class="fi-list"></span>
             </button>
             <h1><a href="/">Moonshine Project</a></h1>
@@ -149,7 +149,7 @@
           </div>
         </header>
       </md-toolbar>
-      <md-content ng-view scroll-y flex>
+      <md-content ng-view md-scroll-y flex>
         <div class="content-container">
           <div class="page-content">
   <div class="post">

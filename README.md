@@ -18,4 +18,4 @@ $ jekyll serve
 - [Architects Daughter](http://www.google.com/fonts/specimen/Architects+Daughter) through [Google Fonts](http://www.google.com/fonts)
 - [Travis](https://travis-ci.org/)
 - [jekyll-travis](https://github.com/mfenner/jekyll-travis/)
-- [Making Jekyll multilingual](http://sylvain.durand.tf/making-jekyll-multilingual/)
+- [Making Jekyll multilingual](http://sylvaindurand.org/making-jekyll-multilingual/)

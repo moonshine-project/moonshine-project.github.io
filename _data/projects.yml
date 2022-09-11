@@ -1,3 +1,8 @@
+- codename: poptech
+  date: '2014-10-01T00:00:00.000+0000'
+  display_name: 'PopTech: Rebellion カンファレンスアプリ'
+  description: 株式会社 Sprocket 様、株式会社ゆめみ様と共にソーシャルネットワーキング機能、位置情報と紐付いた実績機能をそなえたカンファレンスアプリを開発。弊社はAndroid版クライアントを担当しました。
+  tags: [Android, Android Sync Adapter, Google Map Android API, Robolectric, Android Priority Job Queue, Dagger, iBeacon, Sprocket, iPhone]
 - _id: {$oid: 54057a8ae13823043e000003}
   codename: dragonfang
   date: '2014-07-01T00:00:00.000+0000'

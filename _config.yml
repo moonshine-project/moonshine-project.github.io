@@ -50,6 +50,8 @@ include:
   - hammer.js
   - angular-material.js
 
+timezone: Asia/Tokyo
+
 copy:
   - src: bower_components/foundation-icon-fonts/foundation-icons.svg
     dest: assets/css/

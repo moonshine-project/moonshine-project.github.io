@@ -14,7 +14,6 @@
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
     <link rel="stylesheet" href="{{ site.baseurl }}/bower_components/foundation/css/normalize.css">
     <link rel="stylesheet" href="{{ site.baseurl }}/bower_components/angular-material/angular-material.css">
-    <link rel="stylesheet" href="{{ site.baseurl }}/bower_components/angular-material/themes/deep-purple-theme.css">
     <link rel="stylesheet" type="text/css" href="{{ site.baseurl }}/assets/css/main.css">
 
     <!-- Modernizr js -->
@@ -29,7 +28,7 @@
     <![endif]-->        
   </head>
   <body layout="row" md-theme="deep-purple">
-    <md-sidenav layout="column" md-component-id="left" class="md-sidenav-left md-whiteframe-z2" id="footered-sidenav" md-is-locked-open="$media('md')">
+    <md-sidenav layout="column" md-component-id="left" class="md-sidenav-left md-whiteframe-z2" id="footered-sidenav" md-is-locked-open="$mdMedia('md')">
       <md-toolbar class="md-medium-tall" id="footered-sidenav-toolbar"></md-toolbar>
       <md-content layout="column" class="footered-sidenav-content">
         {% include nav.html %}
